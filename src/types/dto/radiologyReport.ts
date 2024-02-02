@@ -69,6 +69,10 @@ export type IRadiologyReportBase = {
    * Đề nghị
    */
   comments: string;
+  /**
+   * Ghi chú
+   */
+  description: string;
   hospitalID: string;
   reportedTime: string;
   reporter: ICloudUserDTO;
@@ -83,7 +87,7 @@ export type IRadiologyReportDTO = Nullable<IRadiologyReportBase> & BaseEntity;
 
 export type IRadilogyReportDTOCreate = Pick<
   IRadiologyReportBase,
-  'findings' | 'impression' | 'comments'
+  'findings' | 'impression' | 'comments' | 'description'
 > &
   Partial<Pick<IRadiologyReportBase, 'images'>> & { reporterID?: BaseEntity['id'] };
 
@@ -98,7 +102,7 @@ export type IRadilogyReportDTOApprove = {
   reporterID?: BaseEntity['id'];
 } & Pick<
   IRadiologyReportDTO,
-  'findings' | 'impression' | 'comments' | 'imageFileIDs' | 'images'
+  'findings' | 'impression' | 'comments' | 'imageFileIDs' | 'images' | 'description'
 >;
 
 export type IRadilogyReportDTOQuickApprove = {

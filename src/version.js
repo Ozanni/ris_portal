@@ -1,1 +1,1 @@
-export default '1.2.73-itech-core';
+export default '1.2.78-itech-core';

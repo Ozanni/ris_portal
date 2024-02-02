@@ -1,6 +1,6 @@
 {
   "name": "cloudpacs-web-v4",
-  "version": "1.2.73",
+  "version": "1.2.78",
   "variant": "itech-core",
   "scripts": {
     "dev": "vite",

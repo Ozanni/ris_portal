@@ -168,6 +168,7 @@ export const globalStyles = {
   `,
 
   extraSmallDateTimeField: (props) => css`
+    width: 100%;
     .MuiFormLabel-root {
       top: -3px;
       font-size: 12px;

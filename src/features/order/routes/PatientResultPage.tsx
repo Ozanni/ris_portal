@@ -13,11 +13,14 @@ import { useGetListPatientRequestsQuery } from '../api/patientRequestHistory';
 import { OrderListLayout } from '../components';
 import PatientHistoryContent from '../components/PatientHistory/PatientHistoryContent';
 import { SidebarPatientHistory } from '../components/PatientHistory/SidebarPatientHistory';
+import TestResultContent from '../components/PatientHistory/TestResultContent';
+import { PATIENT_HISTORY_NODE, selectSidebarKey } from '../stores';
 
 export const PatientResultPage = () => {
   const { pid = 'NaN' } = useParams();
   const translate = useTranslate();
   const dispatch = useAppDispatch();
+  const sidebarKey = useAppSelector(selectSidebarKey);
 
   const id: BaseEntity['id'] = parseInt(pid);
   const { data: patient } = useGetOnePatientQuery({ id });
@@ -42,7 +45,10 @@ export const PatientResultPage = () => {
   ) : (
     <OrderListLayout title={translate.resources.order.patientHistory.title()}>
       <SidebarPatientHistory patient={patient} requests={requests} />
-      <PatientHistoryContent requests={requests} />
+      {sidebarKey === PATIENT_HISTORY_NODE.DIAGNOSIS && (
+        <PatientHistoryContent requests={requests} />
+      )}
+      {sidebarKey === PATIENT_HISTORY_NODE.TEST_RESULT && <TestResultContent pid={id} />}
     </OrderListLayout>
   );
 };

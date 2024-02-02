@@ -2,7 +2,11 @@ import { MenuItem } from '@mui/material';
 import React, { FC } from 'react';
 import { UseFormGetValues } from 'react-hook-form';
 
-import { useGetOneModalityQuery, useLazyGetListModalityQuery } from '@/api/modality';
+import {
+  useGetListModalityQuery,
+  useGetOneModalityQuery,
+  useLazyGetListModalityQuery,
+} from '@/api/modality';
 import { MyFormSelectField } from '@/components/Elements/Inputs/MyFormSelectField';
 import { MyLazyFormSelectField } from '@/components/Elements/Inputs/MyLazyFormSelectField';
 import { useTranslate } from '@/hooks';
@@ -24,22 +28,20 @@ export const RequestModalitySelectField: FC<
   const [trigger] = useLazyGetListModalityQuery();
   const modalityID = watch('modalityID');
 
-  const { data } = useGetOneModalityQuery({ id: modalityID }, { skip: !modalityID });
+  const { data } = useGetListModalityQuery(
+    {
+      filter: {
+        modalityTypes: modalityType ? [modalityType] : [],
+        insuranceApplied: true,
+      },
+    },
+    { skip: !modalityType },
+  );
+
+  const currentModality = data?.list.find((item) => item.id === modalityID);
 
   const getModalityListByType = async () => {
-    if (modalityType) {
-      return (
-        (
-          await trigger(
-            {
-              filter: { modalityTypes: modalityType ? [modalityType] : [] },
-            },
-            true,
-          )
-        ).data?.list ?? []
-      );
-    }
-    return [];
+    return (await data) && data?.list ? data.list : [];
   };
 
   return (
@@ -52,11 +54,11 @@ export const RequestModalitySelectField: FC<
         disabled,
         size: 'extrasmall',
         error:
-          data?.insurance && data?.capability
-            ? data?.insurance >= data?.capability
+          currentModality?.insurance && currentModality?.capability
+            ? currentModality?.insurance >= currentModality?.capability
             : false,
       }}
-      disableValue={getModalitynameString(data) ?? ''}
+      disableValue={getModalitynameString(currentModality) ?? ''}
       onGetListRecord={getModalityListByType}
       renderSelectField={({ listData: modalityList, formSelectFieldProps }) => (
         <MyFormSelectField {...formSelectFieldProps}>

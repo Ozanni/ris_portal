@@ -7,6 +7,7 @@ import {
   API_URL_QMS,
   API_URL_KIOSK,
   API_URL_ANALYSTIC,
+  API_URL_CLINICAL,
 } from '@/config';
 
 import { KIOSK_RESOURCES, QMS_RESOURCES, RESOURCES } from './../types/resources';
@@ -18,6 +19,7 @@ export const PERMIT_ALL_REDUCER = 'permitAll';
 export const QMS_REDUCER = 'qms';
 export const KIOSK_REDUCER = 'kiosk';
 export const ANALYTICS_REDUCER = 'analytics';
+export const CLINICAL_REDUCER = 'clinical';
 
 // Define a service using a base URL and expected endpoints
 export const securedApi = createApi({
@@ -85,6 +87,16 @@ export const analyticsApi = createApi({
   refetchOnMountOrArgChange: 10,
   baseQuery: iTechBaseQueryWithReauth({ baseUrl: API_URL_ANALYSTIC }),
   tagTypes: Object.values(RESOURCES),
+  endpoints: () => ({
+    // api for each resource will be populated by /features
+    // global api endpoints goes here
+  }),
+});
+
+export const clinicalApi = createApi({
+  reducerPath: CLINICAL_REDUCER,
+  refetchOnMountOrArgChange: 10,
+  baseQuery: iTechBaseQueryWithReauth({ baseUrl: API_URL_CLINICAL }),
   endpoints: () => ({
     // api for each resource will be populated by /features
     // global api endpoints goes here

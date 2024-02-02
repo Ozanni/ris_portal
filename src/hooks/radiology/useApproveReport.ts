@@ -199,6 +199,7 @@ export const getSaveReportData = ({
     comments: data.comments ?? '',
     images: data.images ?? undefined,
     reporterID: data.reporterID,
+    description: data.description ?? '',
   };
 
   return content;

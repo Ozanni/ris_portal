@@ -387,6 +387,10 @@ type RootTranslation = {
 		 * C​ấ​u​ ​h​ì​n​h​ ​c​á​ ​n​h​â​n
 		 */
 		userConfig: string
+		/**
+		 * C​ấ​u​ ​h​ì​n​h​ ​b​ả​n​g
+		 */
+		tableConfig: string
 	}
 	messages: {
 		/**
@@ -1084,11 +1088,11 @@ type RootTranslation = {
 			}
 			approver: {
 				/**
-				 * B​á​c​ ​s​ĩ​ ​d​u​y​ệ​t
+				 * B​S​ ​d​u​y​ệ​t
 				 */
 				short: string
 				/**
-				 * B​á​c​ ​s​ĩ​ ​d​u​y​ệ​t​ ​c​a
+				 * B​á​c​ ​s​ĩ​ ​d​u​y​ệ​t
 				 */
 				long: string
 			}
@@ -2057,6 +2061,10 @@ type RootTranslation = {
 			 */
 			comments: string
 			/**
+			 * G​h​i​ ​c​h​ú
+			 */
+			description: string
+			/**
 			 * C​h​ọ​n​ ​t​h​ờ​i​ ​g​i​a​n​ ​d​u​y​ệ​t
 			 */
 			selectApproveTime: string
@@ -2593,6 +2601,40 @@ type RootTranslation = {
 			 * S​ố​ ​l​ư​ợ​n​g
 			 */
 			quantity: string
+		}
+		setting: {
+			/**
+			 * C​ấ​u​ ​h​ì​n​h​ ​b​ả​n​g
+			 */
+			tableSetting: string
+			/**
+			 * C​ấ​u​ ​h​ì​n​h​ ​c​h​u​n​g
+			 */
+			generalSetting: string
+			/**
+			 * P​h​í​m​ ​t​ắ​t
+			 */
+			shortcutKey: string
+			/**
+			 * {​k​e​y​|​{​a​u​t​o​L​o​c​k​O​r​d​e​r​:​ ​K​h​i​ ​m​ở​ ​c​a​ ​h​ệ​ ​t​h​ố​n​g​ ​s​ẽ​ ​t​ự​ ​đ​ộ​n​g​ ​n​h​ậ​n​ ​c​a​ ​c​h​ụ​p​ ​đ​ể​ ​v​i​ế​t​ ​k​ế​t​ ​q​u​ả​,​ ​a​u​t​o​O​p​e​n​V​i​e​w​e​r​:​ ​K​h​i​ ​m​ở​ ​c​a​ ​h​ệ​ ​t​h​ố​n​g​ ​s​ẽ​ ​t​ự​ ​đ​ộ​n​g​ ​h​i​ể​n​ ​t​h​ị​ ​m​à​n​ ​h​ì​n​h​ ​v​i​e​w​e​r​ ​x​e​m​ ​h​ì​n​h​ ​c​h​ụ​p​,​ ​s​h​o​w​D​i​a​g​n​o​s​i​s​P​a​n​e​l​:​ ​H​i​ể​n​ ​t​h​ị​ ​m​à​n​ ​h​ì​n​h​ ​v​i​ế​t​ ​k​ế​t​ ​q​u​ả​ ​t​r​ê​n​ ​c​ù​n​g​ ​m​à​n​ ​h​ì​n​h​ ​d​a​n​h​ ​s​á​c​h​ ​c​a​ ​c​h​ụ​p​,​ ​a​u​t​o​S​e​l​e​c​t​T​e​m​p​l​a​t​e​:​ ​K​h​i​ ​n​h​ậ​n​ ​c​a​ ​v​i​ế​t​ ​k​ế​t​ ​q​u​ả​ ​h​ệ​ ​t​h​ố​n​g​ ​t​ự​ ​đ​ộ​n​g​ ​c​h​ọ​n​ ​m​ẫ​u​ ​k​ế​t​ ​q​u​ả​ ​ư​u​ ​t​i​ê​n​,​ ​p​r​e​f​e​r​P​e​r​s​o​n​a​l​T​e​m​p​l​a​t​e​:​ ​K​h​i​ ​n​h​ậ​n​ ​c​a​ ​v​i​ế​t​ ​k​ế​t​ ​q​u​ả​ ​h​ệ​ ​t​h​ố​n​g​ ​t​ự​ ​ư​u​ ​t​i​ê​n​ ​t​ì​m​ ​m​ẫ​u​ ​k​ế​t​ ​q​u​ả​ ​c​á​ ​n​h​â​n​,​ ​d​o​u​b​l​e​C​l​i​c​k​T​o​O​p​e​n​V​i​e​w​e​r​:​ ​K​h​i​ ​d​o​u​b​l​e​-​c​l​i​c​k​ ​v​à​o​ ​c​a​ ​c​h​ụ​p​ ​h​ệ​ ​t​h​ố​n​g​ ​s​ẽ​ ​b​ậ​t​ ​t​a​b​ ​m​ở​ ​c​a​.​ ​M​ặ​c​ ​đ​ị​n​h​ ​b​ậ​t​ ​v​i​e​w​e​r​ ​}​}
+			 * @param {'autoLockOrder' | 'autoOpenViewer' | 'showDiagnosisPanel' | 'autoSelectTemplate' | 'preferPersonalTemplate' | 'doubleClickToOpenViewer'} key
+			 */
+			generalItemDescription: RequiredParams<`key|{autoLockOrder:${string}, autoOpenViewer:${string}, showDiagnosisPanel:${string}, autoSelectTemplate:${string}, preferPersonalTemplate:${string}, doubleClickToOpenViewer:${string}}`>
+			/**
+			 * {​k​e​y​|​{​a​u​t​o​L​o​c​k​O​r​d​e​r​:​ ​T​ự​ ​đ​ộ​n​g​ ​n​h​ậ​n​ ​c​a​,​ ​a​u​t​o​O​p​e​n​V​i​e​w​e​r​:​ ​T​ự​ ​đ​ộ​n​g​ ​x​e​m​ ​ả​n​h​,​ ​s​h​o​w​D​i​a​g​n​o​s​i​s​P​a​n​e​l​:​ ​V​i​ế​t​ ​k​ế​t​ ​q​u​ả​ ​n​h​a​n​h​,​ ​a​u​t​o​S​e​l​e​c​t​T​e​m​p​l​a​t​e​:​ ​T​ự​ ​đ​ộ​n​g​ ​c​h​ọ​n​ ​m​ẫ​u​ ​k​ế​t​ ​q​u​ả​,​ ​p​r​e​f​e​r​P​e​r​s​o​n​a​l​T​e​m​p​l​a​t​e​:​ ​Ư​u​ ​t​i​ê​n​ ​c​h​ọ​n​ ​m​ẫ​u​ ​c​á​ ​n​h​â​n​,​ ​d​o​u​b​l​e​C​l​i​c​k​T​o​O​p​e​n​V​i​e​w​e​r​:​ ​M​ở​ ​c​a​ ​k​h​i​ ​d​o​u​b​l​e​ ​c​l​i​c​k​ ​v​à​o​ ​c​h​ỉ​ ​đ​ị​n​h​ ​}​}
+			 * @param {'autoLockOrder' | 'autoOpenViewer' | 'showDiagnosisPanel' | 'autoSelectTemplate' | 'preferPersonalTemplate' | 'doubleClickToOpenViewer'} key
+			 */
+			generalItemTitle: RequiredParams<`key|{autoLockOrder:${string}, autoOpenViewer:${string}, showDiagnosisPanel:${string}, autoSelectTemplate:${string}, preferPersonalTemplate:${string}, doubleClickToOpenViewer:${string}}`>
+			/**
+			 * {​k​e​y​|​{​o​p​e​n​_​v​i​e​w​e​r​ ​:​ ​M​ở​ ​ứ​n​g​ ​d​ụ​n​g​ ​x​e​m​ ​ả​n​h​ ​D​I​C​O​M​ ​V​i​e​w​e​r​,​l​o​c​k​_​o​r​d​e​r​:​ ​K​h​ó​a​ ​c​a​ ​/​ ​n​h​ậ​n​ ​c​a​ ​c​h​ụ​p​}​}
+			 * @param {'open_viewer' | 'lock_order'} key
+			 */
+			shortcutKeyDescription: RequiredParams<`key|{open_viewer :${string},lock_order:${string}}`>
+			/**
+			 * {​k​e​y​|​{​s​t​t​:​ ​S​T​T​,​ ​r​e​p​o​r​t​S​t​a​t​u​s​:​ ​T​T​ ​Đ​ọ​c​,​ ​p​a​t​i​e​n​t​N​a​m​e​:​ ​T​ê​n​ ​b​ệ​n​h​ ​n​h​â​n​,​ ​p​a​t​i​e​n​t​P​I​D​:​ ​M​ã​ ​b​ệ​n​h​ ​n​h​â​n​,​ ​m​o​d​a​l​i​t​y​T​y​p​e​:​ ​L​o​ạ​i​,​ ​i​n​p​a​t​i​e​n​t​:​ ​N​ộ​i​ ​t​r​ú​,​ ​n​u​m​O​f​C​o​n​s​u​m​a​b​l​e​s​:​ ​V​ậ​t​ ​t​ư​,​ ​s​t​u​d​y​T​i​m​e​:​ ​N​g​à​y​ ​c​h​ụ​p​,​ ​r​e​q​u​e​s​t​s​:​ ​Y​ê​u​ ​c​ầ​u​ ​c​h​ụ​p​,​ ​b​o​d​y​P​a​r​t​:​ ​B​ộ​ ​p​h​ậ​n​,​ ​r​e​q​u​e​s​t​e​d​T​i​m​e​:​ ​N​g​à​y​ ​c​h​i​̉​ ​đ​i​̣​n​h​,​ ​o​p​e​r​a​t​i​o​n​T​i​m​e​:​ ​N​g​à​y​ ​t​h​ự​c​ ​h​i​ệ​n​,​ ​a​p​p​r​o​v​e​d​T​i​m​e​:​ ​N​g​à​y​ ​k​ế​t​ ​q​u​ả​,​ ​a​c​c​e​s​s​i​o​n​N​u​m​b​e​r​:​ ​M​ã​ ​c​h​ỉ​ ​đ​ị​n​h​,​ ​p​a​t​i​e​n​t​G​e​n​d​e​r​:​ ​G​i​ớ​i​ ​t​í​n​h​,​ ​a​p​p​r​o​v​e​r​:​ ​B​á​c​ ​s​ĩ​ ​d​u​y​ệ​t​,​ ​e​x​p​e​c​t​e​d​R​e​p​o​r​t​e​r​:​ ​B​S​ ​đ​ọ​c​,​ ​r​e​q​u​e​s​t​e​d​D​e​p​a​r​t​m​e​n​t​:​ ​N​ơ​i​ ​C​Đ​}​}
+			 * @param {'stt' | 'reportStatus' | 'patientName' | 'patientPID' | 'modalityType' | 'inpatient' | 'numOfConsumables' | 'studyTime' | 'requests' | 'bodyPart' | 'requestedTime' | 'operationTime' | 'approvedTime' | 'accessionNumber' | 'patientGender' | 'approver' | 'expectedReporter' | 'requestedDepartment'} key
+			 */
+			orderFieldName: RequiredParams<`key|{stt:${string}, reportStatus:${string}, patientName:${string}, patientPID:${string}, modalityType:${string}, inpatient:${string}, numOfConsumables:${string}, studyTime:${string}, requests:${string}, bodyPart:${string}, requestedTime:${string}, operationTime:${string}, approvedTime:${string}, accessionNumber:${string}, patientGender:${string}, approver:${string}, expectedReporter:${string}, requestedDepartment:${string}}`>
 		}
 	}
 	pages: {
@@ -3650,6 +3692,10 @@ export type TranslationFunctions = {
 		 * Cấu hình cá nhân
 		 */
 		userConfig: () => LocalizedString
+		/**
+		 * Cấu hình bảng
+		 */
+		tableConfig: () => LocalizedString
 	}
 	messages: {
 		/**
@@ -4275,11 +4321,11 @@ export type TranslationFunctions = {
 			}
 			approver: {
 				/**
-				 * Bác sĩ duyệt
+				 * BS duyệt
 				 */
 				short: () => LocalizedString
 				/**
-				 * Bác sĩ duyệt ca
+				 * Bác sĩ duyệt
 				 */
 				long: () => LocalizedString
 			}
@@ -5247,6 +5293,10 @@ export type TranslationFunctions = {
 			 */
 			comments: () => LocalizedString
 			/**
+			 * Ghi chú
+			 */
+			description: () => LocalizedString
+			/**
 			 * Chọn thời gian duyệt
 			 */
 			selectApproveTime: () => LocalizedString
@@ -5778,6 +5828,36 @@ export type TranslationFunctions = {
 			 * Số lượng
 			 */
 			quantity: () => LocalizedString
+		}
+		setting: {
+			/**
+			 * Cấu hình bảng
+			 */
+			tableSetting: () => LocalizedString
+			/**
+			 * Cấu hình chung
+			 */
+			generalSetting: () => LocalizedString
+			/**
+			 * Phím tắt
+			 */
+			shortcutKey: () => LocalizedString
+			/**
+			 * {key|{autoLockOrder: Khi mở ca hệ thống sẽ tự động nhận ca chụp để viết kết quả, autoOpenViewer: Khi mở ca hệ thống sẽ tự động hiển thị màn hình viewer xem hình chụp, showDiagnosisPanel: Hiển thị màn hình viết kết quả trên cùng màn hình danh sách ca chụp, autoSelectTemplate: Khi nhận ca viết kết quả hệ thống tự động chọn mẫu kết quả ưu tiên, preferPersonalTemplate: Khi nhận ca viết kết quả hệ thống tự ưu tiên tìm mẫu kết quả cá nhân, doubleClickToOpenViewer: Khi double-click vào ca chụp hệ thống sẽ bật tab mở ca. Mặc định bật viewer }}
+			 */
+			generalItemDescription: (arg: { key: 'autoLockOrder' | 'autoOpenViewer' | 'showDiagnosisPanel' | 'autoSelectTemplate' | 'preferPersonalTemplate' | 'doubleClickToOpenViewer' }) => LocalizedString
+			/**
+			 * {key|{autoLockOrder: Tự động nhận ca, autoOpenViewer: Tự động xem ảnh, showDiagnosisPanel: Viết kết quả nhanh, autoSelectTemplate: Tự động chọn mẫu kết quả, preferPersonalTemplate: Ưu tiên chọn mẫu cá nhân, doubleClickToOpenViewer: Mở ca khi double click vào chỉ định }}
+			 */
+			generalItemTitle: (arg: { key: 'autoLockOrder' | 'autoOpenViewer' | 'showDiagnosisPanel' | 'autoSelectTemplate' | 'preferPersonalTemplate' | 'doubleClickToOpenViewer' }) => LocalizedString
+			/**
+			 * {key|{open_viewer : Mở ứng dụng xem ảnh DICOM Viewer,lock_order: Khóa ca / nhận ca chụp}}
+			 */
+			shortcutKeyDescription: (arg: { key: 'open_viewer' | 'lock_order' }) => LocalizedString
+			/**
+			 * {key|{stt: STT, reportStatus: TT Đọc, patientName: Tên bệnh nhân, patientPID: Mã bệnh nhân, modalityType: Loại, inpatient: Nội trú, numOfConsumables: Vật tư, studyTime: Ngày chụp, requests: Yêu cầu chụp, bodyPart: Bộ phận, requestedTime: Ngày chỉ định, operationTime: Ngày thực hiện, approvedTime: Ngày kết quả, accessionNumber: Mã chỉ định, patientGender: Giới tính, approver: Bác sĩ duyệt, expectedReporter: BS đọc, requestedDepartment: Nơi CĐ}}
+			 */
+			orderFieldName: (arg: { key: 'stt' | 'reportStatus' | 'patientName' | 'patientPID' | 'modalityType' | 'inpatient' | 'numOfConsumables' | 'studyTime' | 'requests' | 'bodyPart' | 'requestedTime' | 'operationTime' | 'approvedTime' | 'accessionNumber' | 'patientGender' | 'approver' | 'expectedReporter' | 'requestedDepartment' }) => LocalizedString
 		}
 	}
 	pages: {

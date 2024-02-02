@@ -26,9 +26,12 @@ export const RadiologyDateTimePicker: FC<RadiologyDateTimePicker> = ({
   label,
 }) => {
   const { close, isOpen, open } = useDisclosure(false);
-
-  return value ? (
-    <MyTooltip title={error ? helperTextForTooltip : undefined} placement={'top'}>
+  return (
+    <MyTooltip
+      title={error ? helperTextForTooltip : undefined}
+      placement={'top'}
+      style={{ width: '100%' }}
+    >
       <StyledRadiologyDateTimePicker $disabled={disabled} $error={error}>
         <MyStaticDateTimePickerWithPopup
           onChange={onChange}
@@ -41,6 +44,7 @@ export const RadiologyDateTimePicker: FC<RadiologyDateTimePicker> = ({
               style: { width: '100%' },
               label: label,
               error: false,
+              size: 'small',
             },
             inputAdornment: { sx: { display: 'none' } },
             actionBar: { actions: ['today', 'accept'] },
@@ -50,13 +54,6 @@ export const RadiologyDateTimePicker: FC<RadiologyDateTimePicker> = ({
         />
       </StyledRadiologyDateTimePicker>
     </MyTooltip>
-  ) : (
-    <MyTextField
-      size={'small'}
-      value={DISPLAY_FORMAT.dateTimeNoSecond}
-      disabled={true}
-      label={label}
-    />
   );
 };
 
@@ -86,6 +83,9 @@ export const StyledRadiologyDateTimePicker = styled('div', filterTransientProps)
       -webkit-text-fill-color: ${(props) => props.theme.pacs?.customColors.text.label};
     }
   }
+  /* .MuiInputLabel-root {
+    transform: translate(14px, 16px) scale(1);
+  } */
   .MuiOutlinedInput-notchedOutline {
     border-color: ${(props) => {
       if (props.$error) {

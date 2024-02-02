@@ -17,6 +17,7 @@ import { UsersCell } from './UsersCell';
 import { UsersCellActionButton } from './UsersCellActionButton';
 import { UsersCellWrapper } from './UsersCellWrapper';
 import { WeekInfomation } from './WeekInfomation';
+import { TimeTableActionButton } from './TimeTableActionButton';
 
 export const ScheduleTable: FC = (props) => {
   const translate = useTranslate();
@@ -76,7 +77,7 @@ export const ScheduleTable: FC = (props) => {
                       />
                     )
                   }
-                  UsersCellButton={<UsersCellActionButton periodID={1} />}
+                  UsersCellButton={<></>}
                 />
               </StyledDivCenterChildren>
             ),
@@ -102,7 +103,7 @@ export const ScheduleTable: FC = (props) => {
                       />
                     )
                   }
-                  UsersCellButton={<UsersCellActionButton periodID={2} />}
+                  UsersCellButton={<></>}
                 />
               </StyledDivCenterChildren>
             ),
@@ -128,7 +129,7 @@ export const ScheduleTable: FC = (props) => {
                       />
                     )
                   }
-                  UsersCellButton={<UsersCellActionButton periodID={3} />}
+                  UsersCellButton={<></>}
                 />
               </StyledDivCenterChildren>
             ),
@@ -151,8 +152,7 @@ export const ScheduleTable: FC = (props) => {
         }}
         showPaginationInfo={false}
         renderPagination={() => <WeekInfomation />}
-        FilterComponent={<RightIcon />}
-        renderActionButtons={() => <LeftIcon />}
+        renderActionButtons={() => <TimeTableActionButton />}
       />
       <ModalUpdateTimetable />
     </TimeTableProvider>

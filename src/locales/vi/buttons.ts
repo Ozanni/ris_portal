@@ -96,6 +96,7 @@ const buttons = {
   advanceSearch: 'Tìm kiếm nâng cao',
   copyResult: 'Sao chép kết quả ',
   userConfig: 'Cấu hình cá nhân',
+  tableConfig: 'Cấu hình bảng',
 };
 
 export default buttons;

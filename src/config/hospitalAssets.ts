@@ -181,4 +181,19 @@ export const HOSPITAL_ASSETS = {
     },
     favicon: visnamLogo,
   },
+  [HOSPITAL_IDS.TTYB]: {
+    name: {
+      vi: 'Bệnh viện tâm thần Yên Bái',
+      en: 'Yen Bai mental hospital',
+    },
+    logo: {
+      light: itechLogo,
+      dark: itechLogo,
+    },
+    logoWithName: {
+      light: itechLogoWithName,
+      dark: itechLogoWithName,
+    },
+    favicon: itechLogo,
+  },
 } satisfies Record<HOSPITAL_IDS, HospitalAsset>;

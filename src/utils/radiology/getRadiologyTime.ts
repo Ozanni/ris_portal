@@ -18,7 +18,6 @@ export const getDefaultOperationTimeSubmissionData = ({
   const requiredDicom = !!modalityType.requireDicom;
   const operationTime =
     request && request.operationTime ? request.operationTime : undefined;
-
   const execOperationTime = operationTime
     ? operationTime
     : requiredDicom

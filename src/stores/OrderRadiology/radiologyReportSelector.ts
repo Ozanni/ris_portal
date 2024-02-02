@@ -40,6 +40,10 @@ export const selectRadiologyReportComments =
   (options: IOrderReportKey) => (state: RootState) =>
     state.radiologyReportContext[options.orderID]?.reports[options.requestID]?.data
       .comments;
+export const selectRadiologyReportDescription =
+  (options: IOrderReportKey) => (state: RootState) =>
+    state.radiologyReportContext[options.orderID]?.reports[options.requestID]?.data
+      .description;
 
 export const selectRadiologyReportMetadata =
   (options: IOrderReportKey) => (state: RootState) =>

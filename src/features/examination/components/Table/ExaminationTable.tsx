@@ -14,7 +14,7 @@ import { getFinalApprovedRequest } from '@/lib/dataHelper/radiologyReport/getFin
 import { useOrderListFunctions } from '@/providers/Order/OrderListFunctionsProvider';
 import { TABLE_EXAMINATION } from '@/stores/table/tableInitialState';
 import { getCurrentTableQuery } from '@/stores/table/tableSelectors';
-import { IOrderDTO, ISearchOrderFilter } from '@/types/dto';
+import { IOrderDTO, ISearchOrderFilter, USER_TYPE } from '@/types/dto';
 import { DISPLAY_FORMAT, itechDateTimeToDayjs } from '@/utils/dateUtils';
 
 import { OrderNumberOfConsumables } from '../../../order/components/OrderList/Table/OrderNumberOfConsumables';
@@ -109,6 +109,7 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
                 {props.row.original.patient?.pid}
               </CellWrapper>
             ),
+            size: 100,
           }),
       },
       {
@@ -118,6 +119,9 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
         renderCell: (context) => (
           <CellWrapper order={context.row.original}>{context.getValue()}</CellWrapper>
         ),
+        columnDefOptions: {
+          size: 120,
+        },
       },
       {
         type: 'custom',
@@ -161,6 +165,7 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
           </CellWrapper>
         ),
         enableSort: true,
+        columnDefOptions: { size: 130 },
       },
       {
         type: 'custom',
@@ -178,7 +183,7 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
                   : ''}
               </CellWrapper>
             ),
-            maxSize: 50,
+            size: 130,
           }),
       },
       {
@@ -197,7 +202,7 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
                   : ''}
               </CellWrapper>
             ),
-            maxSize: 50,
+            size: 130,
           }),
       },
       {
@@ -242,6 +247,7 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
                   )}
               </CellWrapper>
             ),
+            size: 130,
           }),
       },
       {
@@ -252,7 +258,7 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
           <CellWrapper order={context.row.original}>{context.getValue()}</CellWrapper>
         ),
         columnDefOptions: {
-          maxSize: 70,
+          maxSize: 30,
         },
       },
       {
@@ -266,7 +272,27 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
                 {props.row.original.study?.bodyPartExamined}
               </CellWrapper>
             ),
-            maxSize: 100,
+            maxSize: 70,
+          }),
+      },
+
+      {
+        type: 'custom',
+        getColumnDef: (columnHelper) =>
+          columnHelper.display({
+            id: 'expectedReporter',
+            header: translate.resources.order.expectedReporter.short(),
+            cell: (props) => {
+              const value = props.row.original.requests
+                ? props.row.original.requests[0].expectedReporter?.fullname
+                : '';
+              return (
+                <CellWrapper order={props.row.original}>
+                  <div title={value ?? ''}>{value}</div>
+                </CellWrapper>
+              );
+            },
+            maxSize: 120,
           }),
       },
       {
@@ -274,14 +300,42 @@ export const ExaminationTable: FC<OrderTableProps> = (props) => {
         getColumnDef: (columnHelper) =>
           columnHelper.display({
             id: 'approver',
-            header: translate.resources.order.lockedBy.long(),
-            cell: (props) => (
-              <CellWrapper order={props.row.original}>
-                {props.row.original.requests
-                  ? getFinalApprovedRequest(props.row.original)?.finalApprover?.fullname
-                  : ''}
-              </CellWrapper>
-            ),
+            header: translate.resources.order.approver.short(),
+            cell: (props) => {
+              const value = props.row.original.requests
+                ? props.row.original.requests[0].finalApprover?.fullname
+                : '';
+              return (
+                <CellWrapper order={props.row.original}>
+                  <div title={value ?? ''}>{value}</div>
+                </CellWrapper>
+              );
+            },
+            maxSize: 120,
+          }),
+      },
+      {
+        type: 'custom',
+        getColumnDef: (columnHelper) =>
+          columnHelper.display({
+            id: 'operators',
+            header: translate.resources.user.type({ type: USER_TYPE.TECHNICIAN }),
+            cell: (props) => {
+              const value =
+                props.row.original.requests && props.row.original.requests[0]?.operators
+                  ? props.row.original.requests[0]?.operators
+                      ?.map((item) => {
+                        return item.fullname;
+                      })
+                      .join(',')
+                  : '';
+              return (
+                <CellWrapper order={props.row.original}>
+                  <div title={value}>{value}</div>
+                </CellWrapper>
+              );
+            },
+            maxSize: 150,
           }),
       },
       {

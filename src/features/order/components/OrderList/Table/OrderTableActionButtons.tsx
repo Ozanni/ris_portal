@@ -13,6 +13,7 @@ import { IOrderDTO, ORDER_CREATION_TYPE } from '@/types/dto';
 
 import { ViewImageButton } from '../../RadiologyReport/Buttons/ViewImageButton';
 
+import { ConfigTableButton } from './ConfigTableButton';
 import { OrderPanelQuickRadiologyButton } from './OrderPanelQuickRadiologyButton';
 import { OrderTableButtonOpen } from './OrderTableButtonOpen';
 
@@ -22,6 +23,7 @@ type OrderTableActionButtonsProps = {
 
 export const OrderTableActionButtons = (props: OrderTableActionButtonsProps) => {
   const { refetch } = props;
+
   const rowSelected = useAppSelector(getCurrentSelectedRow<IOrderDTO>(TABLE_ORDER));
   const orderListFunctions = useOrderListFunctions();
   const { onClick: openImageInNewTab } = useButtonImage({ order: rowSelected });
@@ -138,6 +140,7 @@ export const OrderTableActionButtons = (props: OrderTableActionButtonsProps) => 
               IconComponentProps={{ color: 'inherit', fontSize: 'small' }}
             />
           </IconButtonWithToolTip> */}
+          <ConfigTableButton />
           {refetch && <TableRefetchButton refetch={refetch} enableKeybind />}
         </>
       }

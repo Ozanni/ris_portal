@@ -6,21 +6,16 @@ import { z } from 'zod';
 import { useCreateOrderRequestMutation } from '@/api/order';
 import { useGetListUsersQuery } from '@/api/users';
 import { MyFormGroupUnstyled } from '@/components/Form';
-import { transformSelfIncrementingValueWithRequests } from '@/dataHelper/transformSelfIncrementingValueWithRequests';
 import { useAppDispatch, useAppSelector, useTranslate } from '@/hooks';
 import { useDeleteRequest } from '@/hooks/examination/useDeleteRequest';
 import { useGenericNotifySnackbar } from '@/providers/NotificationProvider';
+import { useRegisterCreateOrderFunctions } from '@/providers/Order/CreateOrderFunctionsProvider';
 import {
-  useCreateOrderFunctions,
-  useRegisterCreateOrderFunctions,
-} from '@/providers/Order/CreateOrderFunctionsProvider';
-import {
-  deleteOrderRequestData,
   selectCurrentProcedureData,
   selectOrderRequestData,
   setOrderRequestData,
 } from '@/stores/examinnation/createOrderSlice';
-import { IOrderDTO, IOrderUpdateDTO, IProcedureDTO, IUserDTO } from '@/types/dto';
+import { ICloudUserDTO, IOrderDTO, IOrderUpdateDTO, IProcedureDTO } from '@/types/dto';
 import { formatDateTime, getCurrentDateTime } from '@/utils/dateUtils';
 
 import { OrderRequestFormType, RequestFormFields } from './RequestFormFields';
@@ -41,18 +36,40 @@ export const ConnectedAddRequestForm: FC<AddRequestFormProps> = (props) => {
   );
   const { data } = useGetListUsersQuery(
     {
-      filter: { ids: requestSelected?.operatorIDs },
+      filter: {},
     },
-    { skip: !requestSelected?.operatorIDs || requestSelected?.operatorIDs.length !== 0 },
+    { skip: !requestSelected },
   );
-  const listOperators = data?.list ?? undefined;
+
+  const listOperators: ICloudUserDTO[] = [];
+  let finalApprover: ICloudUserDTO | undefined = undefined;
+  let expectedReporter: ICloudUserDTO | undefined = undefined;
+
+  data?.list &&
+    data?.list.forEach((item) => {
+      if (requestSelected?.operatorIDs || requestSelected?.operatorIDs.length !== 0) {
+        requestSelected?.operatorIDs.forEach((id) => {
+          if (id === item.id) {
+            listOperators.push(item);
+          }
+        });
+      }
+      if (requestSelected?.finalApproverID === item.id) {
+        finalApprover = item;
+      }
+      if (requestSelected?.expectedReporterID === item.id) {
+        expectedReporter = item;
+      }
+    });
 
   return (
     <AddRequestForm
       key={currentProcedure?.id}
       {...props}
       currentProcedure={currentProcedure}
-      listOperators={listOperators ?? []}
+      operators={listOperators ?? []}
+      finalApprover={finalApprover}
+      expectedReporter={expectedReporter}
     />
   );
 };
@@ -60,10 +77,9 @@ export const ConnectedAddRequestForm: FC<AddRequestFormProps> = (props) => {
 const AddRequestForm: FC<
   AddRequestFormProps & {
     currentProcedure: IProcedureDTO | null;
-    listOperators: IUserDTO[];
-  }
+  } & Pick<OrderRequestFormType, 'finalApprover' | 'operators' | 'expectedReporter'>
 > = (props) => {
-  const { order, currentProcedure, control, listOperators } = props;
+  const { order, currentProcedure, control, operators } = props;
   const formData = useWatch({ control });
   const translate = useTranslate();
   const register = useRegisterCreateOrderFunctions();
@@ -150,12 +166,20 @@ const AddRequestForm: FC<
           finalApprovedTime: z.string().optional(),
           expectedReporterID: z.number().optional(),
           finalApproverID: z.number().optional(),
+          finalApprover: z.object({ id: z.number() }).optional(),
+          expectedReporter: z.object({ id: z.number() }).optional(),
         })
         .transform((val) => {
           return {
             ...val,
             operatorIDs: val.operators?.map((item) => item.id) ?? undefined,
+            finalApproverID: val?.finalApprover ? val?.finalApprover.id : undefined,
+            expectedReporterID: val?.expectedReporter
+              ? val?.expectedReporter.id
+              : undefined,
             operators: undefined,
+            finalApprover: undefined,
+            expectedReporter: undefined,
           };
         }),
     ),
@@ -170,7 +194,7 @@ const AddRequestForm: FC<
       procedureID: currentProcedure?.id,
       modalityID: currentRequest?.modalityID,
       operatorIDs: currentRequest?.operatorIDs,
-      operators: listOperators,
+      operators: operators,
       consumables: currentRequest?.consumables ?? undefined,
     },
   };

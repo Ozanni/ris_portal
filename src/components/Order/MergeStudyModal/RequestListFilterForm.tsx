@@ -31,13 +31,16 @@ export const ConnectedRequestListFilterForm: FC = () => {
     getCurrentTableQuery<ISearchOrderFilter>(TABLE_ORDER_MERGE_STUDY),
   );
 
-  return query ? <RequestListFilterForm query={query} /> : <></>;
+  return query ? (
+    <RequestListFilterForm query={query} key={query.filter.patientName} />
+  ) : (
+    <></>
+  );
 };
 export const RequestListFilterForm: FC<RequestListFilterFormProps> = (props) => {
   const { query } = props;
   const translate = useTranslate();
   const dispatch = useAppDispatch();
-  const [trigger] = useLazyGetListOrdersQuery();
   const formOptions: UseFormProps<ISearchOrderFilter> = {
     mode: 'onChange',
     // form validation and pre-processing
@@ -73,7 +76,6 @@ export const RequestListFilterForm: FC<RequestListFilterFormProps> = (props) => 
   };
   const handleSubmit = (formData: ISearchOrderFilter) => {
     dispatch(setTableFilter({ tableId: TABLE_ORDER_MERGE_STUDY, filter: formData }));
-    query && trigger({ ...query, filter: formData });
   };
 
   return (

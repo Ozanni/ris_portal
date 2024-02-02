@@ -1,65 +1,59 @@
-import { MenuItem } from '@mui/material';
+import { Checkbox, MenuItem } from '@mui/material';
 import React, { FC } from 'react';
 
 import { useGetOneUserQuery, useLazyGetListUsersQuery } from '@/api/users';
-import { MyFormSelectField } from '@/components/Elements/Inputs/MyFormSelectField';
-import { MyLazyFormSelectField } from '@/components/Elements/Inputs/MyLazyFormSelectField';
+import { MyFormAutoComplete } from '@/components/Form/MyFormAutoComplete';
+import { StyledDivLeftChildren } from '@/components/Layout/StyledDiv';
 import { getUserNameWithCode } from '@/dataHelper/radiologyReport/getUserNameWithCode';
 import { useTranslate } from '@/hooks';
+import { ICloudUserDTO } from '@/types/dto';
+import { userToCloudUser } from '@/utils/userToCloudUser';
 
 import { RequestFieldCommonProps } from './RequestFormFields';
 
 /**
- * Trường Bác sĩ thực hiện trong form tạo,sửa request
+ * Trường Bác sĩ đọc trong form tạo,sửa request
  */
 export const RequestOperatorSelectField: FC<RequestFieldCommonProps> = ({
   control,
   disabled,
-  watch,
 }) => {
   const translate = useTranslate();
-  const [trigger] = useLazyGetListUsersQuery();
-  const expectedReporterID = watch('expectedReporterID');
+  const [trigger, { data, isFetching }] = useLazyGetListUsersQuery();
+  const users = data?.list ?? [];
+  const cloudUsers = users.map(userToCloudUser);
 
-  const { data } = useGetOneUserQuery(
-    { id: expectedReporterID },
-    { skip: !expectedReporterID },
-  );
-  /**
-   * func get list user by type
-   */
-  const getUserListByType = async () => {
-    return (
-      (
-        await trigger(
-          {
-            filter: { types: ['TECHNICIAN', 'IMAGING_DOCTOR'] },
-          },
-          true,
-        )
-      ).data?.list ?? []
-    );
-  };
   return (
-    <MyLazyFormSelectField
-      name="expectedReporterID"
+    <MyFormAutoComplete
+      name="expectedReporter"
       control={control}
-      MySelectProps={{
-        label: translate.resources.order.reporter.short(),
-        size: 'extrasmall',
+      label={translate.resources.order.reporter.short()}
+      MyAutoCompleteProps={{
         disabled,
+        options: cloudUsers,
+        onOpen: () =>
+          trigger({
+            filter: { types: ['TECHNICIAN', 'IMAGING_DOCTOR'] },
+          }),
+        isOptionEqualToValue: (option, value) => option.id === value.id,
+        getOptionLabel: (option) =>
+          `${option ? getUserNameWithCode(option as ICloudUserDTO) : ''}`,
+        fullWidth: true,
+        sx: { height: '100%' },
+        limitTags: 1,
+        renderOption: (props, option, { selected }) => {
+          return (
+            <li {...props}>
+              <StyledDivLeftChildren>
+                <Checkbox size="small" checked={selected} />
+                {getUserNameWithCode(option)}
+              </StyledDivLeftChildren>
+            </li>
+          );
+        },
+        size: 'extrasmall',
+        multiple: false,
       }}
-      disableValue={data?.fullname ?? ''}
-      onGetListRecord={getUserListByType}
-      renderSelectField={({ listData: useList, formSelectFieldProps }) => (
-        <MyFormSelectField {...formSelectFieldProps}>
-          {useList.map((item) => (
-            <MenuItem key={item.id} value={item.id}>
-              {getUserNameWithCode(item)}
-            </MenuItem>
-          ))}
-        </MyFormSelectField>
-      )}
     />
   );
 };

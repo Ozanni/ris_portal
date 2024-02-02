@@ -29,6 +29,7 @@ const BLANK_REPORT_DATA: IRadiologyReportState['data'] = {
   findings: '',
   impression: '',
   comments: '',
+  description: '',
   approvedModalityID: 0,
   operatorIDs: undefined,
   imageFileIDs: null,
@@ -184,6 +185,7 @@ export const radiologyContextSlice = createSlice({
         images,
         consumables,
         reporterID,
+        description,
       } = action.payload;
       state[orderID] = state[orderID] || initializeOrderReportState(state);
 
@@ -196,6 +198,7 @@ export const radiologyContextSlice = createSlice({
         findings: findings ?? report?.findings ?? undefined,
         impression: impression ?? report?.impression ?? undefined,
         comments: comments ?? report?.comments ?? undefined,
+        description: description ?? report?.description ?? undefined,
         approvedModalityID: approvedModalityID ?? request?.modality?.id ?? undefined,
         operatorIDs:
           operatorIDs ?? request?.operators?.map((item) => item.id) ?? undefined,
@@ -237,6 +240,7 @@ export const radiologyContextSlice = createSlice({
           images: content.images ?? oldContent.images,
           consumables: content.consumables ?? oldContent.consumables,
           reporterID: content.reporterID ?? oldContent.reporterID,
+          description: content.description ?? oldContent.description,
         };
       }
     },

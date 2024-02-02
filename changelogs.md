@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.78] - 2024-02-01
+### Changed
+- #106: Display procedureName + BHYT if order is insurance applied- [@Duc]
+- #117: Add column approver, operator for order table - [@Duc]
+- #122: Tính năng kết quả xét nghiệm  - [@Duc]
+- #127: Hiển thị định mức bảo hiểm máy chụp, màn thông tin chỉ định - [@Duc]
+
+## [1.2.77] - 2024-01-24
+### Added
+- PVD-747: Add API transfer study - [@Duc]
+## [1.2.76] - 2024-01-12
+### Added
+- PVD-715: Add API general setting - [@Duc]
+- PVD-716: Add API shortcut key setting - [@Duc]
+- PVD-716: Add popup setting order table - [@Duc]
+- PVD-713: Add description editor - [@Duc]
+## [1.2.75] - 2024-01-08
+### Fixed
+- PVD-707: replace some select field to autocomplete field - [@Duc]
+## [1.2.74] - 2024-01-05
 ### Added
 - PVD-633 : Add feature transfer dicom image - [@Duc]
 - PVD-693 : Add feature user config - [@Duc]
@@ -14,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PVD-592: Added style for extrasmall input (Select, Autocomplete, Datepicker, Checkbox) - [@Duc]
 ### Fixed
 - Fixed auto fill operationTime logic with dicomo or non-dicom order - [@Duc]
+- Fixed logic set operation time when double click to lock order - [@Duc]
 ### Changed
 - Changed max tab from 10 -> 4 - [@Duc]
 ## [1.2.73] - 2023-12-28

@@ -11,15 +11,15 @@ import { TABLE_PATIENT_HISTORY } from '@/stores/table/tableInitialState';
 import { IOrderRequestDTO, IPatientDTO } from '@/types/dto';
 import { DISPLAY_FORMAT, itechDateTimeToDayjs } from '@/utils/dateUtils';
 
-import { selectPatientHistoryKey, setPatientHistoryKey } from '../../stores';
+import {
+  PATIENT_HISTORY_NODE,
+  selectPatientHistoryKey,
+  selectSidebarKey,
+  setPatientHistoryKey,
+  setSidebarKey,
+} from '../../stores';
 
 import { ProcedureSelectField } from './ProcedureSelectField';
-
-enum PATIENT_HISTORY_NODE {
-  DIAGNOSIS = 'DIAGNOSIS',
-  TEST = 'TEST',
-  CLINICAL = 'CLINICAL',
-}
 
 const REQUEST_KEY = 'REQUEST_';
 
@@ -32,9 +32,13 @@ export const SidebarPatientHistory = ({
 }) => {
   const translate = useTranslate();
   const dispatch = useAppDispatch();
+  const sidebarKey = useAppSelector(selectSidebarKey);
 
   const { orderID, requestID } = useAppSelector(selectPatientHistoryKey);
   const defaultSelected = useMemo(() => {
+    if (sidebarKey === PATIENT_HISTORY_NODE.TEST_RESULT) {
+      return PATIENT_HISTORY_NODE.TEST_RESULT;
+    }
     if (orderID && requestID) {
       return makeDiagnosisKey(requestID.toString(), orderID.toString());
     } else if (requests && requests.length !== 0) {
@@ -45,7 +49,7 @@ export const SidebarPatientHistory = ({
     } else {
       return '';
     }
-  }, [orderID, requestID, requests]);
+  }, [orderID, requestID, requests, sidebarKey]);
 
   const trees = useMemo<IRenderTree[]>(() => {
     // initialize with Select all option
@@ -111,7 +115,7 @@ export const SidebarPatientHistory = ({
       },
       {
         MyTreeItemProps: {
-          nodeId: PATIENT_HISTORY_NODE.TEST,
+          nodeId: PATIENT_HISTORY_NODE.TEST_RESULT,
           label: 'Kết quả xét nghiệm',
           ContentProps: {
             labelCollapsedIcon: <FolderIcon color="primary" />,
@@ -138,6 +142,7 @@ export const SidebarPatientHistory = ({
   >(
     (e, nodeId) => {
       if (nodeId.includes(REQUEST_KEY)) {
+        dispatch(setSidebarKey({ sidebarKey: PATIENT_HISTORY_NODE.DIAGNOSIS }));
         const newNodeID = nodeId.replace(REQUEST_KEY, '');
         const [orderID, requestID] = newNodeID.split('-');
         dispatch(
@@ -146,6 +151,10 @@ export const SidebarPatientHistory = ({
             requestID: parseInt(requestID),
           }),
         );
+      }
+
+      if (nodeId.includes(PATIENT_HISTORY_NODE.TEST_RESULT)) {
+        dispatch(setSidebarKey({ sidebarKey: PATIENT_HISTORY_NODE.TEST_RESULT }));
       }
     },
     [dispatch],

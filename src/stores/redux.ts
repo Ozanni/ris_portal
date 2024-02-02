@@ -28,6 +28,7 @@ import {
   qmsApi,
   kioskApi,
   analyticsApi,
+  clinicalApi,
 } from '@/lib/api';
 import { tableReducer, TABLE_REDUCER } from '@/stores/table/tableSlice';
 
@@ -160,6 +161,7 @@ export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
           qmsApi.middleware,
           kioskApi.middleware,
           analyticsApi.middleware,
+          clinicalApi.middleware,
         ),
     preloadedState,
   });

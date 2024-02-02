@@ -13,6 +13,7 @@ import { IOrderDTO } from '@/types/dto';
 
 import { CreateOrderActionButton } from './CreateOrderActionButton';
 import { MergeStudyActionButton } from './MergeStudyActionButton';
+import { TransferActionButton } from './TransferActionButton';
 
 type OrderTableActionButtonsProps = {
   refetch?: () => void;
@@ -49,19 +50,7 @@ export const ExaminationActionButton = (props: OrderTableActionButtonsProps) => 
            * Chuyển ca
            * tính năng chưa hoạt động
            */}
-          <IconButtonWithToolTip
-            title={translate.buttons.labelWithKeyBind({
-              buttonName: translate.buttons.transfer(),
-              key: HOTKEYS.TRANSFER.title,
-            })}
-            onClick={() => {}}
-            disabled
-          >
-            <TableSVGIcon
-              IconComponent={ItechTransferIcon}
-              IconComponentProps={{ color: 'disabled' }}
-            />
-          </IconButtonWithToolTip>
+          <TransferActionButton order={rowSelected} />
 
           {/**
            * Ghép ca chụp

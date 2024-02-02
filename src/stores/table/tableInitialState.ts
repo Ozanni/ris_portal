@@ -83,6 +83,8 @@ export const TABLE_STATISTICAL = `${RESOURCES.STATISTICS_REPORT}`;
 
 export const TABLE_SHORTCUTKEY = `${RESOURCES.SHORTCUT_KEY}`;
 
+export const TABLE_CONFIG_ORDER_LIST = 'table-config-order-list';
+
 initializeDayjs();
 
 /**
@@ -205,8 +207,8 @@ export const initialState: TableStore = {
       query: {
         ...DEFAULT_QUERY,
         filter: {
-          requestedDateFrom: formatDate(getCurrentDate()),
-          requestedDateTo: formatDate(getCurrentDate()),
+          fromDate: formatDate(getCurrentDate()),
+          toDate: formatDate(getCurrentDate()),
         },
       },
       selection: {

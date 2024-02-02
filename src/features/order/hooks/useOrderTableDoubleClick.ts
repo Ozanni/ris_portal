@@ -17,7 +17,7 @@ export const useOrderTableDoubleClick = () => {
   const handleOpenOrderInNewTab = useOpenOrderInNewTab({
     order: rowSelected,
   });
-  const { onClick: onLockOrder } = useLockOrderButton(rowSelected?.id);
+  const { onClick: onLockOrder } = useLockOrderButton(rowSelected);
   // const { onClick } = useButtonImage({ order: rowSelected });
   const onClick = useCallback(async () => {
     handleOpenOrderInNewTab();

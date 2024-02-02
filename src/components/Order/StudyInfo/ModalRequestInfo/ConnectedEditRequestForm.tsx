@@ -43,25 +43,57 @@ export const ConnectedEditRequestForm: FC<EditRequestFormProps> = (props) => {
   );
   const { data } = useGetListUsersQuery(
     {
-      filter: { ids: requestSelected?.operatorIDs },
+      filter: {},
     },
-    { skip: !requestSelected?.operatorIDs || requestSelected?.operatorIDs.length !== 0 },
+    { skip: !requestSelected },
   );
-  const listOperators = data?.list ?? undefined;
+
+  const listOperators: ICloudUserDTO[] = [];
+  let finalApprover: ICloudUserDTO | undefined = undefined;
+  let expectedReporter: ICloudUserDTO | undefined = undefined;
+
+  data?.list &&
+    data?.list.forEach((item) => {
+      if (requestSelected?.operatorIDs || requestSelected?.operatorIDs.length !== 0) {
+        requestSelected?.operatorIDs.forEach((id) => {
+          if (id === item.id) {
+            listOperators.push(item);
+          }
+        });
+      }
+      if (requestSelected?.finalApproverID === item.id) {
+        finalApprover = item;
+      }
+      if (requestSelected?.expectedReporterID === item.id) {
+        expectedReporter = item;
+      }
+    });
+
   return (
     <EditRequestForm
       {...props}
       key={currentProcedure?.id ?? uuidv4()}
-      listUsers={listOperators}
+      operators={listOperators}
       procedure={currentProcedure}
+      finalApprover={finalApprover}
+      expectedReporter={expectedReporter}
     />
   );
 };
 
-const EditRequestForm: FC<EditRequestFormProps & { listUsers?: ICloudUserDTO[] }> = (
-  props,
-) => {
-  const { onSuccessCallback, procedure, order, accessionNumber, listUsers } = props;
+const EditRequestForm: FC<
+  EditRequestFormProps &
+    Pick<OrderRequestFormType, 'finalApprover' | 'operators' | 'expectedReporter'>
+> = (props) => {
+  const {
+    onSuccessCallback,
+    procedure,
+    order,
+    accessionNumber,
+    operators,
+    expectedReporter,
+    finalApprover,
+  } = props;
   const translate = useTranslate();
   const dispatch = useAppDispatch();
   const register = useRegisterEditOrderFunctions();
@@ -78,6 +110,7 @@ const EditRequestForm: FC<EditRequestFormProps & { listUsers?: ICloudUserDTO[] }
   const currentRequest = order?.requests?.find(
     (request) => request.procedure?.id === procedure?.id,
   );
+
   /**
    * request from local
    */
@@ -173,6 +206,8 @@ const EditRequestForm: FC<EditRequestFormProps & { listUsers?: ICloudUserDTO[] }
           expectedReportTime: z.string().optional(),
           operatorIDs: z.array(z.number()).optional(),
           operators: z.array(z.object({ id: z.number() })).optional(),
+          finalApprover: z.object({ id: z.number() }).nullable().optional(),
+          expectedReporter: z.object({ id: z.number() }).nullable().optional(),
           consumables: z
             .array(
               z.object({
@@ -192,7 +227,11 @@ const EditRequestForm: FC<EditRequestFormProps & { listUsers?: ICloudUserDTO[] }
           return {
             ...val,
             operatorIDs: val.operators?.map((item) => item.id) ?? undefined,
+            finalApproverID: val?.finalApprover ? val?.finalApprover.id : null,
+            expectedReporterID: val?.expectedReporter ? val?.expectedReporter.id : null,
             operators: undefined,
+            finalApprover: undefined,
+            expectedReporter: undefined,
           };
         }),
     ),
@@ -212,7 +251,7 @@ const EditRequestForm: FC<EditRequestFormProps & { listUsers?: ICloudUserDTO[] }
       operatorIDs:
         currentRequest?.operators?.map((item) => item.id) ??
         currentRequestLocal?.operatorIDs,
-      operators: currentRequest?.operators ?? listUsers,
+      operators: currentRequest?.operators ?? operators,
       finalApproverID:
         currentRequest?.finalApproverID ?? currentRequestLocal?.finalApproverID,
       finalApprovedTime:
@@ -223,6 +262,12 @@ const EditRequestForm: FC<EditRequestFormProps & { listUsers?: ICloudUserDTO[] }
         formatDateTime(getCurrentDateTime()),
       requestedTime: order?.requestedTime ?? undefined,
       consumables: currentRequest?.consumables ?? undefined,
+      expectedReporter: currentRequest?.expectedReporter
+        ? currentRequest.expectedReporter
+        : expectedReporter,
+      finalApprover: currentRequest?.finalApprover
+        ? currentRequest.finalApprover
+        : finalApprover,
     },
   };
   return (
@@ -236,7 +281,7 @@ const EditRequestForm: FC<EditRequestFormProps & { listUsers?: ICloudUserDTO[] }
       renderInputs={(controls) => (
         <RequestFormFields
           {...controls}
-          orderID={order?.id}
+          order={order}
           requestID={currentRequest?.id}
           procedure={procedure}
           disabledWithOrderFromHIS={order?.creationType === 'HIS'}
