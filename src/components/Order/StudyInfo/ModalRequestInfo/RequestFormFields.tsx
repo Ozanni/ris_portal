@@ -6,9 +6,11 @@ import { MyFormTextField, MyTextField } from '@/components';
 import { IFormControlInputProps } from '@/components/Form';
 import { MyFormDateTimePicker } from '@/components/Form/MyFormDateTimePicker';
 import { useTranslate } from '@/hooks';
+import { getDisplayProcedureName } from '@/lib/dataHelper/order/getDisplayProcedureName';
 import { BaseEntity } from '@/types';
 import {
   ICloudUserDTO,
+  IOrderDTO,
   IOrderRequestDTO,
   IOrderRequestDTOCreate,
   IProcedureDTO,
@@ -27,7 +29,11 @@ import { RequestFormFieldButton } from './RequestFormFieldButton';
 import { RequestModalitySelectField } from './RequestModalitySelectField';
 import { RequestOperatorSelectField } from './RequestOperatorSelectField';
 
-export type RequestFormFields = IOrderRequestDTOCreate & { operators?: ICloudUserDTO[] };
+export type RequestFormFields = IOrderRequestDTOCreate & {
+  operators?: ICloudUserDTO[];
+  finalApprover?: ICloudUserDTO;
+  expectedReporter?: ICloudUserDTO;
+};
 
 export type RequestFieldCommonProps = {
   control: Control<RequestFormFields>;
@@ -44,12 +50,14 @@ type RequestFormFieldsProps = IFormControlInputProps<RequestFormFields> & {
   disabledWithOrderFromHIS?: boolean;
   onDelete: () => void;
   request?: IOrderRequestDTO;
-  orderID?: BaseEntity['id'];
+  order?: IOrderDTO;
   requestID?: BaseEntity['id'];
 };
 
 export type OrderRequestFormType = IOrderRequestDTOCreate & {
   operators?: ICloudUserDTO[];
+  expectedReporter?: ICloudUserDTO;
+  finalApprover?: ICloudUserDTO;
 };
 
 export const RequestFormFields: FC<RequestFormFieldsProps> = (props) => {
@@ -64,11 +72,13 @@ export const RequestFormFields: FC<RequestFormFieldsProps> = (props) => {
     onDelete,
     setValue,
     request,
-    orderID,
+    order,
     requestID,
+    getFieldState,
   } = props;
   const translate = useTranslate();
   const isRequestFormFieldDisabled = !procedure || !!request?.finalReportID;
+
   return (
     <Stack height="100%" justifyContent="space-between">
       <StyledRequestFormFieldWrapper>
@@ -86,7 +96,10 @@ export const RequestFormFields: FC<RequestFormFieldsProps> = (props) => {
             placeholder={translate.resources.procedure.title()}
             fullWidth={true}
             size="extrasmall"
-            value={procedure?.name}
+            value={getDisplayProcedureName(
+              order?.insuranceApplied ?? false,
+              procedure?.name ?? '',
+            )}
             required
             disabled
           />
@@ -181,7 +194,7 @@ export const RequestFormFields: FC<RequestFormFieldsProps> = (props) => {
         </StyledInfoFormFieldsMain>
       </StyledRequestFormFieldWrapper>
       <RequestFormFieldButton
-        orderID={orderID}
+        orderID={order?.id}
         requestID={requestID}
         onSubmit={submit}
         control={control}

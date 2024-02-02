@@ -9,9 +9,8 @@ import { setCurrentPeriodID } from '../../stores/currentPeriodIdSlice';
 export type UsersCellActionButtonType = {
   periodID: number;
 };
-export const UsersCellActionButton = (props: UsersCellActionButtonType) => {
+export const UsersCellActionButton = () => {
   const timetableFunction = useTimetableFunctions();
-  const dispatch = useAppDispatch();
   return (
     <>
       <TableActionButtonsShell
@@ -20,7 +19,6 @@ export const UsersCellActionButton = (props: UsersCellActionButtonType) => {
             title={'Sửa lịch'}
             onClick={() => {
               timetableFunction.openModalUpdateTimetable();
-              dispatch(setCurrentPeriodID(props.periodID));
             }}
             color="primary"
           >

@@ -2,11 +2,10 @@ import React from 'react';
 
 import ItechTransferIcon from '@/assets/icon/TransferIcon';
 import { IconButtonWithToolTip } from '@/components/Elements/Buttons/IconButtonWithToolTip';
+import { TransferStudyModal } from '@/components/Order/TransferStudy/TransferStudyModal';
 import { TableSVGIcon } from '@/components/Table/TableSVGIcon';
 import { useDisclosure, useTranslate } from '@/hooks';
 import { IOrderDTO } from '@/types/dto';
-
-import { TransferStudyModal } from '../Modal/TransferStudy/TransferStudyModal';
 
 /**
  * Nút chuyển ca + popup chuyển ca
@@ -24,7 +23,9 @@ export const TransferButton = ({ order }: { order: IOrderDTO }) => {
       >
         <TableSVGIcon IconComponent={ItechTransferIcon} />
       </IconButtonWithToolTip>
-      {disclosure.isOpen && <TransferStudyModal disclosure={disclosure} />}
+      {disclosure.isOpen && (
+        <TransferStudyModal disclosure={disclosure} orderID={order.id} />
+      )}
     </>
   );
 };

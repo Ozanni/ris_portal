@@ -4,3 +4,8 @@ export type IShortcutKeyDTO = {
   id: string;
   name: string;
 };
+
+export type TableShortcutKeyType = {
+  key: string;
+  id: string;
+};

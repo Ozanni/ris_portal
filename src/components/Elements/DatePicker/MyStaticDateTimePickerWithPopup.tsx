@@ -67,6 +67,7 @@ export default MyStaticDateTimePickerWithPopup;
 export const StyledDateTimeCommonWrapper = styled('div', filterTransientProps)<{
   $customSize: CustomSizeField;
 }>`
+  width: 100%;
   ${(props) => {
     switch (props.$customSize) {
       case 'extrasmall':

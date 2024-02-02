@@ -7,4 +7,5 @@ export enum HOSPITAL_IDS {
   BVDB = '52203',
   YHCT = '40025',
   VISNAM = '0401486901',
+  TTYB = '15107',
 }

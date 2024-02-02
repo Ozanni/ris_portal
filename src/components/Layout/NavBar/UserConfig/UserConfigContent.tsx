@@ -1,12 +1,10 @@
-import { Box, Stack, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Stack, Tab, Tabs } from '@mui/material';
 import React from 'react';
 
-import { MyDivider } from '@/components/Elements';
-
-import { exampleData, UserConfigTab } from './temp';
-import { UserConfigItem } from './UserConfigItem';
+import { UserConfigTab } from './temp';
 import { useUserConfigContext } from './UserConfigProvider';
-import { UserConfigShortcut } from './UserConfigShortcut';
+import { UserGeneralSetting } from './UserGeneralSetting/UserGeneralSetting';
+import { UserConfigShortcut } from './UserShortcutKey/UserConfigShortcut';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -14,6 +12,9 @@ interface TabPanelProps {
   value: UserConfigTab;
 }
 
+/**
+ * Content của Popup cấu hình cá nhân
+ */
 export const UserConfigContent = () => {
   const { currentTab, setCurrentTab } = useUserConfigContext();
 
@@ -30,16 +31,7 @@ export const UserConfigContent = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={currentTab} panelKey={UserConfigTab.CommonConfig}>
-        {exampleData.map((item, index) => (
-          <>
-            <UserConfigItem
-              key={index}
-              description={item.description}
-              title={item.title}
-            />
-            <MyDivider />
-          </>
-        ))}
+        <UserGeneralSetting />
       </CustomTabPanel>
       <CustomTabPanel value={currentTab} panelKey={UserConfigTab.ShortcutConfig}>
         <UserConfigShortcut />

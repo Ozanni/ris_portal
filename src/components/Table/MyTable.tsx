@@ -347,10 +347,6 @@ export const MyTableInner = <T,>(props: MyTableProps<T>) => {
         initialFirstRowSelected,
         selectedIDs,
       }),
-      columnSizing: {
-        stt: 100,
-        reportStatus: 100,
-      },
     },
     manualPagination,
     manualSorting,

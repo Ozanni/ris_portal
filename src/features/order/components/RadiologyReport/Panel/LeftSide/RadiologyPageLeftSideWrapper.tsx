@@ -8,6 +8,7 @@ import { CreateUpdateConsumableTable } from '@/components/Order/Consumable/Creat
 import { OrderRequestSelectField } from '@/components/Order/OrderRequestSelectField';
 import { ConnectedRadiologyModalitySelectForm } from '@/components/Order/Panel/ModalitySelectForm';
 import { ConnectedOperatorAutoCompleteForm } from '@/components/Order/Panel/OperatorAutoCompleteForm';
+import { DescriptionEditor } from '@/components/Order/RadiologyReport/Editors/DescriptionEditor';
 import { useAppDispatch, useTranslate } from '@/hooks';
 import { IOrderReportKey, setCurrentRequestID } from '@/stores/OrderRadiology';
 import { IOrderRequestDTO, ModalityTypeRequiredConsumables } from '@/types/dto';
@@ -98,6 +99,7 @@ export const RadiologyPageLeftSideWrapper: FC<IOrderReportKey> = ({
           size="small"
           disabled={true}
         />
+        <DescriptionEditor />
       </StyledOrderInfomation>
 
       {order?.modalityType &&

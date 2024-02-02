@@ -56,6 +56,7 @@ export const useQuickApproveButton = (props: OrderPanelApproveButtonProps) => {
       comments: reportData?.comments ?? '',
       findings: reportData?.findings ?? '',
       impression: reportData?.impression ?? '',
+      description: reportData?.description ?? '',
       operatorIDs:
         localSubmissionData?.operatorIDs ?? request?.operators?.map((item) => item.id),
       approvedModalityID:

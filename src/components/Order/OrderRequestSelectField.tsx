@@ -2,6 +2,7 @@ import { FormControl, InputLabel, MenuItem } from '@mui/material';
 import React, { FC } from 'react';
 
 import { useTranslate } from '@/hooks';
+import { getDisplayProcedureName } from '@/lib/dataHelper/order/getDisplayProcedureName';
 import { IOrderDTO, IOrderRequestDTO } from '@/types/dto';
 
 import { MySelect, MyTextField } from '../Elements';
@@ -29,9 +30,19 @@ export const OrderRequestSelectField: FC<OrderRequestEditableFieldProps> = ({
       label={translate.resources.procedure.title()}
       placeholder={translate.resources.procedure.title()}
       size="small"
-      title={request?.procedure?.name ?? ''}
+      title={
+        getDisplayProcedureName(
+          order?.insuranceApplied ?? false,
+          request?.procedure?.name ?? '',
+        ) ?? ''
+      }
       fullWidth
-      value={request?.procedure?.name ?? ''}
+      value={
+        getDisplayProcedureName(
+          order?.insuranceApplied ?? false,
+          request?.procedure?.name ?? '',
+        ) ?? ''
+      }
       disabled={true}
     />
   ) : (
@@ -44,18 +55,23 @@ export const OrderRequestSelectField: FC<OrderRequestEditableFieldProps> = ({
         value={request?.id ?? 0}
         fullWidth
       >
-        {order?.requests?.map((item) => (
-          <MenuItem
-            key={item.id}
-            value={item.id}
-            title={item.procedure?.name ?? ''}
-            onClick={() => onRequestChange && onRequestChange(item)}
-          >
-            <OrderInfoTypography title={item?.procedure?.name ?? ''}>
-              {item?.procedure?.name}
-            </OrderInfoTypography>
-          </MenuItem>
-        ))}
+        {order?.requests?.map((item) => {
+          const displayName =
+            getDisplayProcedureName(
+              order?.insuranceApplied ?? false,
+              item?.procedure?.name ?? '',
+            ) ?? '';
+          return (
+            <MenuItem
+              key={item.id}
+              value={item.id}
+              title={displayName}
+              onClick={() => onRequestChange && onRequestChange(item)}
+            >
+              <OrderInfoTypography title={displayName}>{displayName}</OrderInfoTypography>
+            </MenuItem>
+          );
+        })}
       </MySelect>
     </FormControl>
   );

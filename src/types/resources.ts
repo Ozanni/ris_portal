@@ -68,6 +68,7 @@ export enum RESOURCES {
   COUNT_REQUEST_BY_MODALITY = `${RESOURCES.ANALYTIC}/today/countRequestsByModality`,
   PATIENT_REQUEST = 'patientRequest',
   SHORTCUT_KEY = 'shortcutKey',
+  SETTING = 'setting',
 }
 
 export enum KIOSK_RESOURCES {

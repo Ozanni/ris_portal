@@ -70,7 +70,7 @@ export const OrderDetailedInfoDynamicPanel: FC<OrderDetailedInfoDynamicPanelProp
               </OrderInfoTypography>
             }
             FieldValue={
-              <OrderInfoTypography width="150px" title={order?.patient?.fullname ?? ''}>
+              <OrderInfoTypography width={'100%'} title={order?.patient?.fullname ?? ''}>
                 {order?.patient?.fullname}
               </OrderInfoTypography>
             }

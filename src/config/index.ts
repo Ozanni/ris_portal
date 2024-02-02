@@ -28,6 +28,10 @@ export const API_URL_SECURED = preprocessAPIEndPoints(
 export const API_URL_ANALYSTIC = preprocessAPIEndPoints(
   import.meta.env.VITE_APP_API_URL_ANALYSTIC,
 );
+
+export const API_URL_CLINICAL = preprocessAPIEndPoints(
+  import.meta.env.VITE_APP_API_URL_CLINICAL,
+);
 export const API_URL_QMS = preprocessAPIEndPoints(import.meta.env.VITE_APP_API_URL_QMS);
 export const API_URL_KIOSK = preprocessAPIEndPoints(
   import.meta.env.VITE_APP_API_URL_KIOSK,

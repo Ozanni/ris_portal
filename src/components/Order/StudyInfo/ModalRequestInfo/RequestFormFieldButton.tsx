@@ -36,6 +36,7 @@ export const RequestFormFieldButton: FC<RequestFormFieldButton> = ({
 }) => {
   const translate = useTranslate();
   const requestFormData = useWatch({ control });
+
   const notify = useNotifySnackbar();
   const [triggerGetOneModalityTypeByName] = useLazyGetOneModalityTypeByNameQuery();
 
@@ -51,8 +52,9 @@ export const RequestFormFieldButton: FC<RequestFormFieldButton> = ({
       imageFileIDs: null,
       images: null,
       impression: '',
+      description: '',
     },
-    approverID: requestFormData.finalApproverID,
+    approverID: requestFormData.finalApprover?.id,
   });
 
   const onSubmitRequestForm = async () => {
@@ -99,7 +101,7 @@ export const RequestFormFieldButton: FC<RequestFormFieldButton> = ({
         });
         return;
       } else {
-        requestFormData.finalApproverID
+        requestFormData.finalApprover?.id
           ? getConflict({ approveCallback: onSubmit })
           : onSubmit();
       }

@@ -267,6 +267,7 @@ export const useRadiologyReport = (
             requestID,
             findings: report?.findings || '',
             impression: report?.impression || '',
+            description: report.description || '',
             comments: report?.comments || '',
             operatorIDs: request?.operators?.map((item) => item.id) ?? undefined,
             id: report?.id,
@@ -342,4 +343,5 @@ const isEmptyReportSubmissionContent = (
 ) =>
   !reportSubmission?.impression &&
   !reportSubmission?.findings &&
-  !reportSubmission?.comments;
+  !reportSubmission?.comments &&
+  !reportSubmission?.description;

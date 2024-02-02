@@ -2,7 +2,10 @@ import { useEffect } from 'react';
 
 import { useLazyGetOneModalityTypeByNameQuery } from '@/api/modalityType';
 import { useGetOneOrderQuery } from '@/api/order';
-import { useGetOneOrderRequestQuery } from '@/api/orderRequest';
+import {
+  useGetOneOrderRequestQuery,
+  useLazyGetOneOrderRequestQuery,
+} from '@/api/orderRequest';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { getIsEnableLockOrder } from '@/lib/dataHelper/radiologyReport/validateLockOrder';
 import { useUserPermission } from '@/providers/AuthProvider';
@@ -21,12 +24,19 @@ import {
 
 import { useLockOrder } from './useLockOrder';
 
-export const useLockOrderButton = (orderId?: IOrderDTO['id']) => {
+export const useLockOrderButton = (selectedRow?: IOrderDTO) => {
   const [triggerGetModalityType] = useLazyGetOneModalityTypeByNameQuery();
   const currentOrderID = useCurrentOrderID();
-  const orderID = orderId ?? currentOrderID;
-  const requestID = useAppSelector(selectCurrentRequestID(orderID));
+  const orderID = selectedRow?.id ?? currentOrderID;
   const { data: order } = useGetOneOrderQuery({ id: orderID }, { skip: !orderID });
+
+  const execOrder = selectedRow ?? order;
+  const requestID =
+    useAppSelector(selectCurrentRequestID(orderID)) ??
+    (execOrder?.requests && execOrder?.requests[0].id);
+
+  const [triggerGetRequest] = useLazyGetOneOrderRequestQuery();
+
   const { data: request } = useGetOneOrderRequestQuery(
     {
       orderID: order?.id ?? 0,
@@ -45,15 +55,16 @@ export const useLockOrderButton = (orderId?: IOrderDTO['id']) => {
    * Thời gian thực hiện ca chụp bắt đầu từ khi nhận ca
    */
   const lockOrderAndSetOperationTime = async () => {
-    const isLocked = await handleLockOrder(orderID, request?.id);
-    if (isLocked && order?.modalityType) {
+    const isLocked = await handleLockOrder(orderID, requestID);
+    const request = await triggerGetRequest({ orderID, requestID }, true).unwrap();
+
+    if (isLocked && execOrder?.modalityType && request) {
       const modalityType = await triggerGetModalityType(
         {
-          name: order.modalityType,
+          name: execOrder.modalityType,
         },
         true,
       ).unwrap();
-
       dispatch(
         setRadiologyReportSubmissionData({
           orderID,
@@ -71,7 +82,7 @@ export const useLockOrderButton = (orderId?: IOrderDTO['id']) => {
   };
 
   useEffect(() => {
-    if (order && user && request) {
+    if (execOrder && user && request) {
       let buttonState = BUTTON_STATE.DISABLED;
       if (getIsEnableLockOrder(permission, request)) {
         buttonState = BUTTON_STATE.ACTIVE;
@@ -80,7 +91,7 @@ export const useLockOrderButton = (orderId?: IOrderDTO['id']) => {
         setRadiologyReportButtonState({ orderID, button: 'LOCK', state: buttonState }),
       );
     }
-  }, [dispatch, order, orderID, permission, request, user]);
+  }, [dispatch, execOrder, orderID, permission, request, user]);
 
   return {
     buttonState: buttonState || BUTTON_STATE.DISABLED,

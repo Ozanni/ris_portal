@@ -17,7 +17,7 @@ import { getCurrentTableQuery } from '@/stores/table/tableSelectors';
 // import { getListMockResources } from '@/test/data/getListMockData';
 // import { orderGenerator } from '@/test/data/orderGenerator';
 import { IGetManyResourcesQuery } from '@/types';
-import { IOrderDTO, ISearchOrderFilter } from '@/types/dto';
+import { IOrderDTO, ISearchOrderFilter, USER_TYPE } from '@/types/dto';
 import { DISPLAY_FORMAT, itechDateTimeToDayjs } from '@/utils/dateUtils';
 
 import { useOrderTableDoubleClick } from '../../../hooks/useOrderTableDoubleClick';
@@ -91,6 +91,7 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
                 </CellWrapper>
               </StyledDivCenterChildren>
             ),
+            maxSize: 50,
           }),
       },
       {
@@ -103,7 +104,9 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
           </CellWrapper>
         ),
         enableSort: true,
-        columnDefOptions: {},
+        columnDefOptions: {
+          maxSize: 70,
+        },
       },
 
       {
@@ -132,6 +135,7 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
                 </div>
               </CellWrapper>
             ),
+            size: 100,
           }),
       },
       {
@@ -187,6 +191,7 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
                   )}
               </CellWrapper>
             ),
+            size: 130,
           }),
       },
       {
@@ -228,6 +233,9 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
             )}
           </CellWrapper>
         ),
+        columnDefOptions: {
+          maxSize: 130,
+        },
         enableSort: true,
       },
       {
@@ -247,6 +255,7 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
               </CellWrapper>
             ),
             minSize: 50,
+            size: 130,
           }),
       },
       {
@@ -266,6 +275,7 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
               </CellWrapper>
             ),
             minSize: 50,
+            size: 130,
           }),
       },
       {
@@ -277,6 +287,9 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
             <div title={context.getValue() ?? ''}>{context.getValue()}</div>
           </CellWrapper>
         ),
+        columnDefOptions: {
+          size: 120,
+        },
       },
       {
         type: 'custom',
@@ -292,7 +305,7 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
                   })}
               </CellWrapper>
             ),
-            maxSize: 100,
+            maxSize: 50,
           }),
       },
       {
@@ -301,13 +314,17 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
           columnHelper.display({
             id: 'approver',
             header: translate.resources.order.approver.short(),
-            cell: (props) => (
-              <CellWrapper order={props.row.original}>
-                {props.row.original.requests
-                  ? getFinalApprovedRequest(props.row.original)?.finalApprover?.fullname
-                  : ''}
-              </CellWrapper>
-            ),
+            cell: (props) => {
+              const value = props.row.original.requests
+                ? props.row.original.requests[0].finalApprover?.fullname
+                : '';
+              return (
+                <CellWrapper order={props.row.original}>
+                  <div title={value ?? ''}>{value}</div>
+                </CellWrapper>
+              );
+            },
+            maxSize: 120,
           }),
       },
       {
@@ -316,13 +333,41 @@ export const OrderTable: FC<OrderTableProps> = (props) => {
           columnHelper.display({
             id: 'expectedReporter',
             header: translate.resources.order.expectedReporter.short(),
-            cell: (props) => (
-              <CellWrapper order={props.row.original}>
-                {props.row.original.requests
-                  ? props.row.original.requests[0].expectedReporter?.fullname
-                  : ''}
-              </CellWrapper>
-            ),
+            cell: (props) => {
+              const value = props.row.original.requests
+                ? props.row.original.requests[0].expectedReporter?.fullname
+                : '';
+              return (
+                <CellWrapper order={props.row.original}>
+                  <div title={value ?? ''}>{value}</div>
+                </CellWrapper>
+              );
+            },
+            maxSize: 120,
+          }),
+      },
+      {
+        type: 'custom',
+        getColumnDef: (columnHelper) =>
+          columnHelper.display({
+            id: 'operators',
+            header: translate.resources.user.type({ type: USER_TYPE.TECHNICIAN }),
+            cell: (props) => {
+              const value =
+                props.row.original.requests && props.row.original.requests[0]?.operators
+                  ? props.row.original.requests[0]?.operators
+                      ?.map((item) => {
+                        return item.fullname;
+                      })
+                      .join(',')
+                  : '';
+              return (
+                <CellWrapper order={props.row.original}>
+                  <div title={value}>{value}</div>
+                </CellWrapper>
+              );
+            },
+            maxSize: 150,
           }),
       },
       // {

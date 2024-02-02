@@ -95,6 +95,7 @@ const buttons: Translation['buttons'] = {
   advanceSearch: 'Advance search',
   copyResult: 'Copy result',
   userConfig: 'User config',
+  tableConfig: 'Table config',
 };
 
 export default buttons;

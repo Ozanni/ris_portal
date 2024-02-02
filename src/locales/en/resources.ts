@@ -404,6 +404,7 @@ const resources: Translation['resources'] = {
     findings: 'Findings',
     impression: 'Impression',
     comments: 'Comments',
+    description: 'Description',
     selectApproveTime: 'Select approve time',
     selectTemplate: {
       title: 'Select template',
@@ -580,6 +581,19 @@ const resources: Translation['resources'] = {
     materialName: 'Material name',
     materialType: 'Material type',
     quantity: 'Quantity',
+  },
+  [RESOURCES.SETTING]: {
+    tableSetting: 'Table setting',
+    generalSetting: 'General setting',
+    shortcutKey: 'Shortcut key',
+    generalItemDescription:
+      '{key|{autoLockOrder: Khi mở ca hệ thống sẽ tự động nhận ca chụp để viết kết quả, autoOpenViewer: Khi mở ca hệ thống sẽ tự động hiển thị màn hình viewer xem hình chụp, showDiagnosisPanel: Hiển thị màn hình viết kết quả trên cùng màn hình danh sách ca chụp, autoSelectTemplate: Khi nhận ca viết kết quả hệ thống tự động chọn mẫu kết quả ưu tiên, preferPersonalTemplate: Khi nhận ca viết kết quả hệ thống tự ưu tiên tìm mẫu kết quả cá nhân, doubleClickToOpenViewer: Khi double-click vào ca chụp hệ thống sẽ bật tab mở ca. Mặc định bật viewer }}',
+    generalItemTitle:
+      '{key|{autoLockOrder: Tự động nhận ca, autoOpenViewer: Tự động xem ảnh, showDiagnosisPanel: Viết kết quả nhanh, autoSelectTemplate: Tự động chọn mẫu kết quả, preferPersonalTemplate: Ưu tiên chọn mẫu cá nhân, doubleClickToOpenViewer: Mở ca khi double click vào chỉ định }}',
+    shortcutKeyDescription:
+      '{key|{open_viewer : Mở ứng dụng xem ảnh DICOM Viewer,lock_order: Khóa ca / nhận ca chụp}}',
+    orderFieldName:
+      '{key|{stt: STT, reportStatus: TT Đọc, patientName: Tên bệnh nhân, patientPID: Mã bệnh nhân, modalityType: Loại, inpatient: Nội trú, numOfConsumables: Vật tư, studyTime: Ngày chụp, requests: Yêu cầu chụp, bodyPart: Bộ phận, requestedTime: Ngày chỉ định, operationTime: Ngày thực hiện, approvedTime: Ngày kết quả, accessionNumber: Mã chỉ định, patientGender: Giới tính, approver: Bác sĩ duyệt, expectedReporter: BS đọc, requestedDepartment: Nơi CĐ}}',
   },
 };
 export default resources;
