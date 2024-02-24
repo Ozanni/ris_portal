@@ -4,6 +4,7 @@ import { FC } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useGetListConsumableMaterialQuery } from '@/api/consumableMaterial';
 import { useCreateProcedureMutation } from '@/api/procedure';
 import { MyCheckbox, MyFormCheckboxField, MyFormTextField } from '@/components';
 import { MyFormSelectField } from '@/components/Elements/Inputs/MyFormSelectField';
@@ -26,6 +27,10 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
   const translate = useTranslate();
   const register = useRegisterAdminFunctions();
   const { modalityAbbrData, listProcedure } = useProcedureForm();
+  const { data } = useGetListConsumableMaterialQuery({
+    filter: {},
+  });
+  const consumableMaterialList = data?.list;
 
   const formOptions: UseFormProps<IProcedureDTOCreate> = {
     mode: 'onChange',
@@ -77,6 +82,14 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
         dicomDescription: z.string().optional(),
         bodyParts: z.array(z.string()).optional(),
         supportAI: z.boolean().optional(),
+        consumables: z
+          .array(
+            z.object({
+              materialID: z.number().optional(),
+              quantity: z.string().transform((val) => parseInt(val)),
+            }),
+          )
+          .optional(),
       }),
     ),
     defaultValues: {
@@ -178,6 +191,45 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
               onKeyDown,
             }}
           />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              gap: '8px',
+            }}
+          >
+            <MyFormSelectField
+              name={`consumables.0.materialID`}
+              control={control}
+              required
+              MySelectProps={{
+                label: translate.resources.consumable.title(),
+                placeholder: translate.resources.consumable.materialName(),
+                fullWidth: true,
+              }}
+            >
+              {consumableMaterialList &&
+                consumableMaterialList?.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+            </MyFormSelectField>
+            <MyFormTextField
+              control={control}
+              name={`consumables.0.quantity`}
+              MyTextFieldProps={{
+                label: translate.resources.consumable.quantity(),
+                placeholder: translate.resources.consumable.quantity(),
+                size: 'small',
+                defaultValue: 0,
+                type: 'number',
+                inputProps: { min: 0 },
+              }}
+            />
+          </div>
+
           <MyFormCheckboxField
             control={control}
             render={({ value, onChange }) => (

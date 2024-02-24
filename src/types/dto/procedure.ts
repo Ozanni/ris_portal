@@ -1,5 +1,7 @@
 import { BaseEntity, Nullable, Voidable } from '@/types';
 
+import { IProcedureConsumableDTOBase } from './procedureConsumable';
+
 export type IProcedureDTOBase = {
   /**
    * Mã dịch vụ (*)
@@ -25,6 +27,10 @@ export type IProcedureDTOBase = {
    * Hỗ trợ AI
    */
   supportAI: boolean;
+  /**
+   * Vật tư tiêu hao
+   */
+  consumables: IProcedureConsumableDTOBase[];
 };
 
 export type IProcedureDTO = Nullable<IProcedureDTOBase> & BaseEntity & Voidable;
