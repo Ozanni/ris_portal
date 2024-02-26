@@ -17,6 +17,7 @@ import { IProcedureDTOCreate } from '@/types/dto';
 import { useProcedureForm } from '../../hooks/useProcedureForm';
 
 import { ProcedureBodyPartAutocompleteField } from './ProcedureBodyPartAutocompleteField';
+import { ProcedureConsumableMaterialAutocompleteField } from './ProcedureConsumableMaterialAutocompleteField';
 
 type ProcedureCreateFormProps = {
   onSuccessCallback: () => void;
@@ -27,10 +28,6 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
   const translate = useTranslate();
   const register = useRegisterAdminFunctions();
   const { modalityAbbrData, listProcedure } = useProcedureForm();
-  const { data } = useGetListConsumableMaterialQuery({
-    filter: {},
-  });
-  const consumableMaterialList = data?.list;
 
   const formOptions: UseFormProps<IProcedureDTOCreate> = {
     mode: 'onChange',
@@ -191,36 +188,11 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
               onKeyDown,
             }}
           />
-          <StyledDiv>
-            <MyFormSelectField
-              name={`consumables.0.materialID`}
-              control={control}
-              MySelectProps={{
-                label: translate.resources.consumable.title(),
-                placeholder: translate.resources.consumable.materialName(),
-                fullWidth: true,
-              }}
-            >
-              {consumableMaterialList &&
-                consumableMaterialList?.map((item) => (
-                  <MenuItem key={item.id} value={item.id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-            </MyFormSelectField>
-            <MyFormTextField
-              control={control}
-              name={`consumables.0.quantity`}
-              MyTextFieldProps={{
-                label: translate.resources.consumable.quantity(),
-                placeholder: translate.resources.consumable.quantity(),
-                size: 'small',
-                defaultValue: 0,
-                type: 'number',
-                inputProps: { min: 0 },
-              }}
-            />
-          </StyledDiv>
+          <ProcedureConsumableMaterialAutocompleteField
+            control={control}
+            materialID="consumables.0.materialID"
+            quantity="consumables.0.quantity"
+          />
 
           <MyFormCheckboxField
             control={control}
@@ -242,10 +214,3 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
     />
   );
 };
-
-const StyledDiv = styled('div')`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: ${(props) => props.theme.spacing(1)};
-`;
