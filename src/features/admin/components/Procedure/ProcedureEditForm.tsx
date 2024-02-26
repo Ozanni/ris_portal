@@ -98,9 +98,10 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
           .array(
             z.object({
               materialID: z.number().optional(),
-              quantity: z.preprocess((val) => Number(val), z.number().optional()),
+              quantity: z.preprocess((val) => Number(val), z.number()).optional(),
             }),
           )
+          .transform((val) => (val[0].materialID === undefined ? [] : val))
           .optional(),
       }),
     ),
@@ -111,7 +112,7 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
       name: record.name ?? '',
       supportAI: record.supportAI ?? false,
       bodyParts: record?.bodyParts ?? [],
-      consumables: record.consumables ?? [],
+      consumables: record?.consumables ?? [],
     },
   };
 
@@ -209,8 +210,8 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
           />
           <ProcedureConsumableMaterialAutocompleteField
             control={control}
-            materialID="consumables.0.materialID"
-            quantity="consumables.0.quantity"
+            materialID={`consumables.0.materialID`}
+            quantity={`consumables.0.quantity`}
           />
           <MyFormCheckboxField
             control={control}

@@ -50,6 +50,7 @@ export const ProcedureConsumableMaterialAutocompleteField = <T extends FieldValu
           size: 'small',
           type: 'number',
           inputProps: { min: 0 },
+          defaultValue: 0,
         }}
       />
     </StyledDiv>

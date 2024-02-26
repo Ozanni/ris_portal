@@ -83,7 +83,10 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
           .array(
             z.object({
               materialID: z.number().optional(),
-              quantity: z.preprocess((val) => Number(val), z.number().optional()),
+              quantity: z
+                .string()
+                .transform((val) => Number(val))
+                .optional(),
             }),
           )
           .optional(),
