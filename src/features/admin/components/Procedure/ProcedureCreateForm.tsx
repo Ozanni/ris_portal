@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, MenuItem, Stack, Typography } from '@mui/material';
+import { Box, MenuItem, Stack, Typography, styled } from '@mui/material';
 import { FC } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
@@ -86,7 +86,7 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
           .array(
             z.object({
               materialID: z.number().optional(),
-              quantity: z.string().transform((val) => parseInt(val)),
+              quantity: z.preprocess((val) => Number(val), z.number().optional()),
             }),
           )
           .optional(),
@@ -191,18 +191,10 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
               onKeyDown,
             }}
           />
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              width: '100%',
-              gap: '8px',
-            }}
-          >
+          <StyledDiv>
             <MyFormSelectField
               name={`consumables.0.materialID`}
               control={control}
-              required
               MySelectProps={{
                 label: translate.resources.consumable.title(),
                 placeholder: translate.resources.consumable.materialName(),
@@ -228,7 +220,7 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
                 inputProps: { min: 0 },
               }}
             />
-          </div>
+          </StyledDiv>
 
           <MyFormCheckboxField
             control={control}
@@ -250,3 +242,10 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
     />
   );
 };
+
+const StyledDiv = styled('div')`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: ${(props) => props.theme.spacing(1)};
+`;
