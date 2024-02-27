@@ -1,12 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, MenuItem, Stack, Typography, styled } from '@mui/material';
 import { FC } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
 
 import { useCreateProcedureMutation } from '@/api/procedure';
-import { MyCheckbox, MyFormCheckboxField, MyFormTextField } from '@/components';
-import { MyFormSelectField } from '@/components/Elements/Inputs/MyFormSelectField';
 import { MyFormGroupUnstyled } from '@/components/Form';
 import { useTranslate } from '@/hooks';
 import { useRegisterAdminFunctions } from '@/providers/Admin/AdminProvider';
@@ -15,8 +12,7 @@ import { IProcedureDTOCreate } from '@/types/dto';
 
 import { useProcedureForm } from '../../hooks/useProcedureForm';
 
-import { ProcedureBodyPartAutocompleteField } from './ProcedureBodyPartAutocompleteField';
-import { ProcedureConsumableMaterialField } from './ProcedureConsumableMaterialField';
+import { ProcedureFormFields } from './ProcedureFormFields';
 
 type ProcedureCreateFormProps = {
   onSuccessCallback: () => void;
@@ -135,84 +131,9 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
       onSubmit={handleSubmit}
       submitOnEnter
       formOptions={formOptions}
-      renderInputs={({ control, formState, onKeyDown }) => (
-        <Stack spacing={1} alignItems="start" width="500px">
-          <MyFormTextField
-            name="name"
-            control={control}
-            MyTextFieldProps={{
-              label: translate.resources.procedure.name(),
-              placeholder: translate.resources.procedure.name(),
-              fullWidth: true,
-              required: true,
-              size: 'small',
-              onKeyDown,
-            }}
-          />
-          <MyFormTextField
-            name="code"
-            control={control}
-            MyTextFieldProps={{
-              label: translate.resources.procedure.code(),
-              placeholder: translate.resources.procedure.code(),
-              fullWidth: true,
-              required: true,
-              size: 'small',
-              onKeyDown,
-            }}
-          />
-          <MyFormSelectField
-            name="modalityType"
-            control={control}
-            required
-            MySelectProps={{
-              label: translate.resources.procedure.modalityType(),
-              placeholder: translate.resources.procedure.modalityType(),
-              fullWidth: true,
-            }}
-          >
-            {modalityAbbrData &&
-              modalityAbbrData?.list.map((item) => (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.id}
-                </MenuItem>
-              ))}
-          </MyFormSelectField>
-          <ProcedureBodyPartAutocompleteField control={control} name="bodyParts" />
-          <MyFormTextField
-            name="dicomDescription"
-            control={control}
-            MyTextFieldProps={{
-              label: translate.resources.procedure.dicomDescription(),
-              placeholder: translate.resources.procedure.dicomDescription(),
-              fullWidth: true,
-              size: 'small',
-              onKeyDown,
-            }}
-          />
-          <ProcedureConsumableMaterialField
-            control={control}
-            materialID="consumables.0.materialID"
-            quantity="consumables.0.quantity"
-          />
-
-          <MyFormCheckboxField
-            control={control}
-            render={({ value, onChange }) => (
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <MyCheckbox checked={!!value} onChange={onChange} />
-                <Typography>{translate.resources.procedure.supportAI()}</Typography>
-              </Box>
-            )}
-            name="supportAI"
-          />
-        </Stack>
-      )}
+      renderInputs={(controls) => {
+        return <ProcedureFormFields modalityAbbrData={modalityAbbrData} {...controls} />;
+      }}
     />
   );
 };
