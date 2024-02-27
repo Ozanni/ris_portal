@@ -4,7 +4,6 @@ import { FC } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useGetListConsumableMaterialQuery } from '@/api/consumableMaterial';
 import { useCreateProcedureMutation } from '@/api/procedure';
 import { MyCheckbox, MyFormCheckboxField, MyFormTextField } from '@/components';
 import { MyFormSelectField } from '@/components/Elements/Inputs/MyFormSelectField';
@@ -17,7 +16,7 @@ import { IProcedureDTOCreate } from '@/types/dto';
 import { useProcedureForm } from '../../hooks/useProcedureForm';
 
 import { ProcedureBodyPartAutocompleteField } from './ProcedureBodyPartAutocompleteField';
-import { ProcedureConsumableMaterialAutocompleteField } from './ProcedureConsumableMaterialAutocompleteField';
+import { ProcedureConsumableMaterialField } from './ProcedureConsumableMaterialField';
 
 type ProcedureCreateFormProps = {
   onSuccessCallback: () => void;
@@ -191,7 +190,7 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
               onKeyDown,
             }}
           />
-          <ProcedureConsumableMaterialAutocompleteField
+          <ProcedureConsumableMaterialField
             control={control}
             materialID="consumables.0.materialID"
             quantity="consumables.0.quantity"

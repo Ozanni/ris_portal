@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, MenuItem, Stack, Typography, styled } from '@mui/material';
+import { Box, MenuItem, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,7 +22,7 @@ import { IProcedureDTO, IProcedureDTOUpdate } from '@/types/dto';
 import { useProcedureForm } from '../../hooks/useProcedureForm';
 
 import { ProcedureBodyPartAutocompleteField } from './ProcedureBodyPartAutocompleteField';
-import { ProcedureConsumableMaterialAutocompleteField } from './ProcedureConsumableMaterialAutocompleteField';
+import { ProcedureConsumableMaterialField } from './ProcedureConsumableMaterialField';
 
 type ProcedureEditFormProps = {
   onSuccessCallback: () => void;
@@ -208,7 +208,7 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
               onKeyDown,
             }}
           />
-          <ProcedureConsumableMaterialAutocompleteField
+          <ProcedureConsumableMaterialField
             control={control}
             materialID={`consumables.0.materialID`}
             quantity={`consumables.0.quantity`}
