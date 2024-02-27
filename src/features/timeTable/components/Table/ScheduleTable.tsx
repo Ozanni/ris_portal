@@ -13,11 +13,11 @@ import { ModalUpdateTimetable } from '../Modal/ModalUpdateTimetable';
 
 import { LeftIcon } from './LeftIcon';
 import { RightIcon } from './RightIcon';
+import { TimeTableActionButton } from './TimeTableActionButton';
 import { UsersCell } from './UsersCell';
 import { UsersCellActionButton } from './UsersCellActionButton';
 import { UsersCellWrapper } from './UsersCellWrapper';
 import { WeekInfomation } from './WeekInfomation';
-import { TimeTableActionButton } from './TimeTableActionButton';
 
 export const ScheduleTable: FC = (props) => {
   const translate = useTranslate();

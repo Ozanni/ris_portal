@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, MenuItem, Stack, Typography } from '@mui/material';
+import { Box, MenuItem, Stack, Typography, styled } from '@mui/material';
 import { FC } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useGetListConsumableMaterialQuery } from '@/api/consumableMaterial';
 import { useCreateProcedureMutation } from '@/api/procedure';
 import { MyCheckbox, MyFormCheckboxField, MyFormTextField } from '@/components';
 import { MyFormSelectField } from '@/components/Elements/Inputs/MyFormSelectField';
@@ -16,6 +17,7 @@ import { IProcedureDTOCreate } from '@/types/dto';
 import { useProcedureForm } from '../../hooks/useProcedureForm';
 
 import { ProcedureBodyPartAutocompleteField } from './ProcedureBodyPartAutocompleteField';
+import { ProcedureConsumableMaterialAutocompleteField } from './ProcedureConsumableMaterialAutocompleteField';
 
 type ProcedureCreateFormProps = {
   onSuccessCallback: () => void;
@@ -77,6 +79,17 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
         dicomDescription: z.string().optional(),
         bodyParts: z.array(z.string()).optional(),
         supportAI: z.boolean().optional(),
+        consumables: z
+          .array(
+            z.object({
+              materialID: z.number().optional(),
+              quantity: z
+                .string()
+                .transform((val) => Number(val))
+                .optional(),
+            }),
+          )
+          .optional(),
       }),
     ),
     defaultValues: {
@@ -178,6 +191,12 @@ export const ProcedureCreateForm: FC<ProcedureCreateFormProps> = (props) => {
               onKeyDown,
             }}
           />
+          <ProcedureConsumableMaterialAutocompleteField
+            control={control}
+            materialID="consumables.0.materialID"
+            quantity="consumables.0.quantity"
+          />
+
           <MyFormCheckboxField
             control={control}
             render={({ value, onChange }) => (

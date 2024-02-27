@@ -1,7 +1,9 @@
-import { RightIcon } from './RightIcon';
-import { LeftIcon } from './LeftIcon';
 import { Stack } from '@mui/material';
+
 import { UserClockEditIcon } from '@/assets/icon';
+
+import { LeftIcon } from './LeftIcon';
+import { RightIcon } from './RightIcon';
 import { UsersCellActionButton } from './UsersCellActionButton';
 
 export const TimeTableActionButton = () => {

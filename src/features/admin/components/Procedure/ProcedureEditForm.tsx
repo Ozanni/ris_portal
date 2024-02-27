@@ -1,9 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, MenuItem, Stack, Typography } from '@mui/material';
+import { Box, MenuItem, Stack, Typography, styled } from '@mui/material';
 import { FC } from 'react';
 import { UseFormProps } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useGetListConsumableMaterialQuery } from '@/api/consumableMaterial';
 import { useUpdateProcedureMutation } from '@/api/procedure';
 import {
   MyCheckbox,
@@ -21,6 +22,7 @@ import { IProcedureDTO, IProcedureDTOUpdate } from '@/types/dto';
 import { useProcedureForm } from '../../hooks/useProcedureForm';
 
 import { ProcedureBodyPartAutocompleteField } from './ProcedureBodyPartAutocompleteField';
+import { ProcedureConsumableMaterialAutocompleteField } from './ProcedureConsumableMaterialAutocompleteField';
 
 type ProcedureEditFormProps = {
   onSuccessCallback: () => void;
@@ -34,6 +36,10 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
   const { modalityAbbrData, listProcedureFiltedred } = useProcedureForm({
     record,
   });
+  const { data } = useGetListConsumableMaterialQuery({
+    filter: {},
+  });
+  const consumableMaterialList = data?.list;
 
   const formOptions: UseFormProps<IProcedureDTOUpdate> = {
     mode: 'onChange',
@@ -88,6 +94,15 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
         dicomDescription: z.string().optional(),
         supportAI: z.boolean().optional(),
         bodyParts: z.array(z.string()).optional(),
+        consumables: z
+          .array(
+            z.object({
+              materialID: z.number().optional(),
+              quantity: z.preprocess((val) => Number(val), z.number()).optional(),
+            }),
+          )
+          .transform((val) => (val[0].materialID === undefined ? [] : val))
+          .optional(),
       }),
     ),
     defaultValues: {
@@ -97,6 +112,7 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
       name: record.name ?? '',
       supportAI: record.supportAI ?? false,
       bodyParts: record?.bodyParts ?? [],
+      consumables: record?.consumables ?? [],
     },
   };
 
@@ -191,6 +207,11 @@ export const ProcedureEditForm: FC<ProcedureEditFormProps> = (props) => {
               size: 'small',
               onKeyDown,
             }}
+          />
+          <ProcedureConsumableMaterialAutocompleteField
+            control={control}
+            materialID={`consumables.0.materialID`}
+            quantity={`consumables.0.quantity`}
           />
           <MyFormCheckboxField
             control={control}
