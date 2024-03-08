@@ -1,0 +1,1 @@
+import{a as t,F as n}from"./vendor-1c7a9a47.js";import{bj as a,e_ as s,f9 as i,fa as r}from"./index-cdd5c634.js";const l=()=>{const e=a();return s(),t(i,{children:t(r,{title:e.resources.patient.adminTitle(),ActionButtons:t(n,{}),TableComponent:t(n,{})})})};export{l as AdminPatient};

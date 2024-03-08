@@ -1,0 +1,1 @@
+import{a as t,bs as s}from"./vendor-1c7a9a47.js";import{aA as r,aB as u,aC as c,aD as a}from"./index-cdd5c634.js";const i=()=>{const e=r(),o=u();return e.length?{exectRouteRedirect:o?c:`${e[0].route}`}:{exectRouteRedirect:void 0}},M=()=>{const{exectRouteRedirect:e}=i();return e?t(s,{to:e}):t(a,{})};export{M as Redirect};

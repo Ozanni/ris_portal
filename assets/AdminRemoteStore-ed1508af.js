@@ -1,0 +1,1 @@
+import{a as e,F as t}from"./vendor-1c7a9a47.js";import{bj as r,e_ as n,f9 as s,fa as a}from"./index-cdd5c634.js";const l=()=>{const o=r();return n(),e(s,{children:e(a,{title:o.resources.remoteStore.title(),ActionButtons:e(t,{}),TableComponent:e(t,{})})})};export{l as AdminRemoteStore};

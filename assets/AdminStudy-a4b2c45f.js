@@ -1,0 +1,1 @@
+import{a as t,F as n}from"./vendor-1c7a9a47.js";import{bj as e,e_ as a,f9 as r,fa as o}from"./index-cdd5c634.js";const d=()=>{const s=e();return a(),t(r,{children:t(o,{title:s.resources.study.adminTitle(),ActionButtons:t(n,{}),TableComponent:t(n,{})})})};export{d as AdminStudy};

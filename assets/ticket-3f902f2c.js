@@ -1,0 +1,1 @@
+var a=(e=>(e.STARTED="STARTED",e.PASSING="PASSING",e.COMPLETED="COMPLETED",e))(a||{}),r=(e=>(e.PATIENT_NAME="pName",e.PATIENT_ID="PID",e.QUEUE_NUMBER="queue",e.ROOM="room",e.TICKET_CREATED_DATE="ticketCreatedDate",e.PATIENT_BARCODE="patientBarcode",e))(r||{});export{a as T,r as a};

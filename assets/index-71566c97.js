@@ -1,0 +1,1 @@
+import{G as a,I as o,H as r,F as R}from"./index-cdd5c634.js";import"./vendor-1c7a9a47.js";export{a as ROUTE_REGISTRATION_LIST,o as RegistrationListLayout,r as RegistrationListRoutes,R as registrationListPaths};

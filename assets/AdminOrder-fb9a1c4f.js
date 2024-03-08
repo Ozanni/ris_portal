@@ -1,0 +1,1 @@
+import{a as e,F as r}from"./vendor-1c7a9a47.js";import{bj as t,e_ as s,f9 as a,fa as o}from"./index-cdd5c634.js";const d=()=>{const n=t();return s(),e(a,{children:e(o,{title:n.resources.order.adminTitle(),ActionButtons:e(r,{}),TableComponent:e(r,{})})})};export{d as AdminOrder};

@@ -1,0 +1,1 @@
+import{a as t,F as n}from"./vendor-1c7a9a47.js";import{bj as s,e_ as e,f9 as r,fa as a}from"./index-cdd5c634.js";const l=()=>{const o=s();return e(),t(r,{children:t(a,{title:o.resources.workstation.title(),ActionButtons:t(n,{}),TableComponent:t(n,{})})})};export{l as AdminWorkStation};

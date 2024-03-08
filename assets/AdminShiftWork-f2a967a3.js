@@ -1,0 +1,1 @@
+import{a as t,F as s}from"./vendor-1c7a9a47.js";import{bj as n,e_ as r,f9 as o,fa as a}from"./index-cdd5c634.js";const l=()=>{const e=n();return r(),t(o,{children:t(a,{title:e.resources.shiftWork.title(),ActionButtons:t(s,{}),TableComponent:t(s,{})})})};export{l as AdminShiftWork};

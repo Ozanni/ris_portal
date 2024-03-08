@@ -1,0 +1,1 @@
+import{a as n,F as s}from"./vendor-1c7a9a47.js";import{bj as e,e_ as a,f9 as i,fa as o}from"./index-cdd5c634.js";const m=()=>{const t=e();return a(),n(i,{children:n(o,{title:t.resources.displayConfig.title(),ActionButtons:n(s,{}),TableComponent:n(s,{})})})};export{m as AdminDisplayConfig};

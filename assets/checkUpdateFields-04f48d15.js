@@ -1,0 +1,1 @@
+import{l}from"./vendor-1c7a9a47.js";function y(e,o,s){let c=!1;const i={};for(const r of e){if(Array.isArray(o[r])&&Array.isArray(s[r])){const t=o[r],f=s[r];o[r]=t.slice().sort(),s[r]=f.slice().sort()}l.isEqual(o[r],s[r])||(c=!0,i[r]=s[r])}return{canUpdate:c,updateData:i}}export{y as c};

@@ -1,0 +1,1 @@
+import{a as e,F as t}from"./vendor-1c7a9a47.js";import{bj as r,e_ as s,f9 as o,fa as a}from"./index-cdd5c634.js";const m=()=>{const n=r();return s(),e(o,{children:e(a,{title:n.resources.fileStore.title(),ActionButtons:e(t,{}),TableComponent:e(t,{})})})};export{m as AdminFileStore};
