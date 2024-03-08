@@ -341,10 +341,10 @@ export const getThemeOptions = (mode: MODE_THEME): ThemeOptions => {
     },
     pacs: {
       images: {
-        login: HOSPITAL_ASSETS[HOSPITAL_ID].logo.light,
-        navbar: HOSPITAL_ASSETS[HOSPITAL_ID].logoWithName.light,
-        statisticBar: HOSPITAL_ASSETS[HOSPITAL_ID].logoWithName.light,
-        favicon: HOSPITAL_ASSETS[HOSPITAL_ID].favicon,
+        login: HOSPITAL_ASSETS[HOSPITAL_ID]?.logo.light,
+        navbar: HOSPITAL_ASSETS[HOSPITAL_ID]?.logoWithName.light,
+        statisticBar: HOSPITAL_ASSETS[HOSPITAL_ID]?.logoWithName.light,
+        favicon: HOSPITAL_ASSETS[HOSPITAL_ID]?.favicon,
       },
       layout: {
         tableTheadHeight: '30px',
