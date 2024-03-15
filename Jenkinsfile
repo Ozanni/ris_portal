@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        stage('install') {
+            steps {
+                script {
+                    sh 'npm install'
+                }
+            }
+        }
         stage('Lint') {
             steps {
                 script {
