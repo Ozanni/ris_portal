@@ -21,24 +21,25 @@ pipeline {
         }
     }
     post {
-  success {
-    script {
-        sh '$GITHUB_API_URL/statuses/$GIT_COMMIT" \
-            -H "Content-Type: application/json" \
-            -X POST \
-            -d "{\"state\": \"success\"}"'
+        success {
+            script {
+                sh '''
+                    curl "$GITHUB_API_URL/statuses/$GIT_COMMIT" \
+                        -H "Content-Type: application/json" \
+                        -X POST \
+                        -d "{\"state\": \"success\"}"
+                '''
+            }
+        }
+        failure {
+            script {
+                sh '''
+                    curl "$GITHUB_API_URL/statuses/$GIT_COMMIT" \
+                        -H "Content-Type: application/json" \
+                        -X POST \
+                        -d "{\"state\": \"failure\"}"
+                '''
+            }
+        }
     }
-  }
-  failure {
-    // withCredentials([usernamePassword(credentialsId: 'github-private-key-ed25519', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-    //   sh 'curl -X POST --user $USERNAME:$PASSWORD --data  "{\\"state\\": \\"failure\\"}" --url $GITHUB_API_URL/statuses/$GIT_COMMIT'
-    // }
-    script {
-        sh '$GITHUB_API_URL/statuses/$GIT_COMMIT" \
-            -H "Content-Type: application/json" \
-            -X POST \
-            -d "{\"state\": \"success\"}"'
-    }
-  }
-}
 }
