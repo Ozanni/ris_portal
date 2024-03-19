@@ -54,8 +54,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        def branchName = env.BRANCH_NAME
-                        sh "git checkout $branchName && npm run lint"
+                        // def branchName = env.BRANCH_NAME
+                        sh "npm run lint"
                     } catch (Exception e) {
                         error("Error occurred during 'Lint' stage: ${e.message}")
                     }
