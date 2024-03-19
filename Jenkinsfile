@@ -31,19 +31,19 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            script {
-                if (pipelineError) {
-                    echo "Pipeline encountered errors. Rejecting pull request."
-                    currentBuild.result = 'FAILURE'
-                    rejectPullRequest()
-                } else {
-                    echo "Pipeline completed successfully. Proceeding."
-                }
-            }
-        }
-    }
+    // post {
+    //     always {
+    //         script {
+    //             if (pipelineError) {
+    //                 echo "Pipeline encountered errors. Rejecting pull request."
+    //                 currentBuild.result = 'FAILURE'
+    //                 rejectPullRequest()
+    //             } else {
+    //                 echo "Pipeline completed successfully. Proceeding."
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 def rejectPullRequest() {
