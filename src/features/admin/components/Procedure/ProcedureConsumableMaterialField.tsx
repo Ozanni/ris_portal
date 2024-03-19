@@ -6,14 +6,14 @@ import { MyFormTextField } from '@/components';
 import { MyFormSelectField } from '@/components/Elements/Inputs/MyFormSelectField';
 import { useTranslate } from '@/hooks';
 
-type ProcedureConsumableMaterialAutocompleteFieldProps<T extends FieldValues> = {
+type ProcedureConsumableMaterialFieldProps<T extends FieldValues> = {
   materialID: Path<T>;
   quantity: Path<T>;
   control: Control<T>;
 };
 
-export const ProcedureConsumableMaterialAutocompleteField = <T extends FieldValues>(
-  props: ProcedureConsumableMaterialAutocompleteFieldProps<T>,
+export const ProcedureConsumableMaterialField = <T extends FieldValues>(
+  props: ProcedureConsumableMaterialFieldProps<T>,
 ) => {
   const { control, materialID, quantity } = props;
   const translate = useTranslate();
