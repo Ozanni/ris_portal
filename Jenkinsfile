@@ -31,29 +31,26 @@ pipeline {
         }
     }
 
-    // post {
-    //     always {
-    //         script {
-    //             if (pipelineError) {
-    //                 echo "Pipeline encountered errors. Rejecting pull request."
-    //                 currentBuild.result = 'FAILURE'
-    //                 rejectPullRequest()
-    //             } else {
-    //                 echo "Pipeline completed successfully. Proceeding."
-    //             }
-    //         }
-    //     }
-    // }
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
 }
 
-def rejectPullRequest() {
-    script {
-        def prId = env.CHANGE_ID
-        def apiUrl = "https://api.github.com/repos/${env.REPOSITORY_NAME}/pulls/${prId}/merge"
-        def authHeader = "-H 'Authorization: token ${env.GITHUB_TOKEN}'"
-        def rejectData = '{"commit_title": "Jenkins build failed", "commit_message": "Automatic rejection due to Jenkins build failure"}'
-        def curlCmd = "curl -X PUT -d '${rejectData}' ${authHeader} ${apiUrl}"
+// def rejectPullRequest() {
+//     script {
+//         def prId = env.CHANGE_ID
+//         def apiUrl = "https://api.github.com/repos/${env.REPOSITORY_NAME}/pulls/${prId}/merge"
+//         def authHeader = "-H 'Authorization: token ${env.GITHUB_TOKEN}'"
+//         def rejectData = '{"commit_title": "Jenkins build failed", "commit_message": "Automatic rejection due to Jenkins build failure"}'
+//         def curlCmd = "curl -X PUT -d '${rejectData}' ${authHeader} ${apiUrl}"
 
-        sh "${curlCmd}"
-    }
+//         sh "${curlCmd}"
+//     }
 }
