@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    def pipelineError = false
+    // def pipelineError = false
 
     stages {
         stage('install') {
