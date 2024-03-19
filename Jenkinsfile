@@ -72,19 +72,22 @@ void setBuildStatus(String message, String state) {
 
 pipeline {
     agent any
-  stages {
-    stage('test') {
+    stages {
+        stage("github => pending") {
             steps {
-                echo 'test....'  
+                githubNotify status: "PENDING", account: "Ozanni", repo: "ris_portal"
             }
         }
-  }
+    }
   post {
     success {
-        setBuildStatus("Build succeeded", "SUCCESS");
+        // setBuildStatus("Build succeeded", "SUCCESS");
+        githubNotify status: "SUCCESS", account: "Ozanni", repo: "ris_portal"
+
     }
     failure {
-        setBuildStatus("Build failed", "FAILURE");
+        // setBuildStatus("Build failed", "FAILURE");
+        githubNotify status: "FAILURE", account: "Ozanni", repo: "ris_portal"
     }
   }
 }
