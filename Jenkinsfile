@@ -3,6 +3,7 @@ pipeline {
     environment {
         GITHUB_API_URL='https://api.github.com/repos/Ozanni/ris_portal'
     }
+    
     stages {
         stage('install') {
             steps {
