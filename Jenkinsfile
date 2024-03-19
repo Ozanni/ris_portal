@@ -33,7 +33,14 @@ pipeline {
 
     post {
         always {
-            echo 'This will always run'
+            script {
+                def githubCommitStatus = currentBuild.result == 'SUCCESS' ? 'SUCCESS' : 'FAILURE'
+                githubCommitStatus(
+                    displayName: 'Jenkins',
+                    comment: 'Build status: ' + githubCommitStatus,
+                    state: githubCommitStatus
+                )
+            }
         }
         success {
             echo 'This will run only if successful'
