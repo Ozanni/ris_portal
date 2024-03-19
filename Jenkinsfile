@@ -1,17 +1,42 @@
-void setBuildStatus(String message, String state) {
-  step([
-      $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/Ozanni/ris_portal.git"],
-      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
-      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-  ]);
+// void setBuildStatus(String message, String state) {
+//   step([
+//       $class: "GitHubCommitStatusSetter",
+//       reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/Ozanni/ris_portal.git"],
+//       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+//       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+//       statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+//   ]);
+// }
+
+// void setBuildStatus(String message, String context, String state) {
+//   // add a Github access token as a global 'secret text' credential on Jenkins with the id 'github-commit-status-token'
+//     withCredentials([string(credentialsId: 'github-commit-status-token', variable: 'TOKEN')]) {
+//       // 'set -x' for debugging. Don't worry the access token won't be actually logged
+//       // Also, the sh command actually executed is not properly logged, it will be further escaped when written to the log
+//         sh """
+//             set -x
+//             curl \"https://github.com/Ozanni/ris_portal.git/repos/org/repo/statuses/$GIT_COMMIT?access_token=$TOKEN\" \
+//                 -H \"Content-Type: application/json\" \
+//                 -X POST \
+//                 -d \"{\\\"description\\\": \\\"$message\\\", \\\"state\\\": \\\"$state\\\", \\\"context\\\": \\\"$context\\\", \\\"target_url\\\": \\\"$BUILD_URL\\\"}\"
+//         """
+//     } 
+// }
+
+def setBuildStatus(String message, String state) {
+    withCredentials([string(credentialsId: 'github-commit-status-token', variable: 'GITHUB_TOKEN')]) {
+        sh """
+            curl -X POST \
+                -H 'Authorization: token $GITHUB_TOKEN' \
+                -H 'Content-Type: application/json' \
+                -d '{"state": "$state", "target_url": "$BUILD_URL", "description": "$message", "context": "jenkins-ci"}' \
+                "https://api.github.com/repos/Ozanni/ris_portal/statuses/$GIT_COMMIT"
+        """
+    }
 }
 
 pipeline {
     agent any
-
-    // def pipelineError = false
 
     stages {
         stage('install') {
@@ -20,7 +45,6 @@ pipeline {
                     try {
                         sh 'yarn install'
                     } catch (Exception e) {
-                        pipelineError = true
                         error("Error occurred during 'install' stage: ${e.message}")
                     }
                 }
@@ -33,7 +57,6 @@ pipeline {
                         def branchName = env.BRANCH_NAME
                         sh "git checkout $branchName && npm run lint"
                     } catch (Exception e) {
-                        pipelineError = true
                         error("Error occurred during 'Lint' stage: ${e.message}")
                     }
                 }
@@ -42,22 +65,13 @@ pipeline {
     }
 
     post {
-    success {
-        setBuildStatus("Build succeeded", "SUCCESS");
+        always {
+            script {
+                if (currentBuild.result == 'FAILURE') {
+                    setBuildStatus("Build failed", "failure")
+                }
+            }
+        }
     }
-    failure {
-        setBuildStatus("Build failed", "FAILURE");
-    }
-  }
-
-// def rejectPullRequest() {
-//     script {
-//         def prId = env.CHANGE_ID
-//         def apiUrl = "https://api.github.com/repos/${env.REPOSITORY_NAME}/pulls/${prId}/merge"
-//         def authHeader = "-H 'Authorization: token ${env.GITHUB_TOKEN}'"
-//         def rejectData = '{"commit_title": "Jenkins build failed", "commit_message": "Automatic rejection due to Jenkins build failure"}'
-//         def curlCmd = "curl -X PUT -d '${rejectData}' ${authHeader} ${apiUrl}"
-
-//         sh "${curlCmd}"
-//     }
 }
+
