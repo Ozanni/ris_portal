@@ -5,6 +5,13 @@ pipeline {
     }
     
     stages {
+        stage('Declarative: Checkout SCM') {
+            steps {
+                script {
+                    checkout([$class: 'GitSCM', branches: [[name: env.BRANCH_NAME]], userRemoteConfigs: [[url: 'git@github.com:Ozanni/ris_portal.git']]])
+                }
+            }
+        }
         stage('install') {
             steps {
                 script {
