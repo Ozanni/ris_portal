@@ -71,23 +71,45 @@ void setBuildStatus(String message, String state) {
 
 
 pipeline {
-    agent { label "centos7"}
+    agent any
+    
     stages {
-        stage("github => pending") {
+        stage('Update GitHub Commit Status') {
             steps {
-                githubNotify status: "PENDING", account: "Ozanni", repo: "ris_portal"
+                script {
+                    def getRepoURL() {
+                        sh "git config --get remote.origin.url > .git/remote-url"
+                        return readFile(".git/remote-url").trim()
+                    }
+
+                    def getCommitSha() {
+                        sh "git rev-parse HEAD > .git/current-commit"
+                        return readFile(".git/current-commit").trim()
+                    }
+
+                    def updateGithubCommitStatus(build) {
+                        repoUrl = getRepoURL()
+                        commitSha = getCommitSha()
+
+                        step([
+                            $class: 'GitHubCommitStatusSetter',
+                            reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
+                            commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
+                            errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
+                            statusResultSource: [
+                                $class: 'ConditionalStatusResultSource',
+                                results: [
+                                    [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
+                                    [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
+                                    [$class: 'AnyBuildResult', state: 'FAILURE', message: 'Loophole']
+                                ]
+                            ]
+                        ])
+                    }
+
+                    updateGithubCommitStatus(currentBuild)
+                }
             }
         }
     }
-  post {
-    success {
-        // setBuildStatus("Build succeeded", "SUCCESS");
-        githubNotify status: "SUCCESS", account: "Ozanni", repo: "ris_portal"
-
-    }
-    failure {
-        // setBuildStatus("Build failed", "FAILURE");
-        githubNotify status: "FAILURE", account: "Ozanni", repo: "ris_portal"
-    }
-  }
 }
