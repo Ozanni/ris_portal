@@ -14,7 +14,6 @@ pipeline {
         stage('Lint') {
             steps {
                 script {
-                    // def branchName = env.BRANCH_NAME
                     sh 'npm run lint'
                 }
             }
@@ -23,22 +22,20 @@ pipeline {
     post {
         success {
             script {
-                sh '''
-                    curl "$GITHUB_API_URL/statuses/$GIT_COMMIT" \
-                        -H "Content-Type: application/json" \
-                        -X POST \
-                        -d "{\"state\": \"success\"}"
-                '''
+                sh """
+                    curl -X POST "${GITHUB_API_URL}/statuses/$GIT_COMMIT" \
+                    -H "Content-Type: application/json" \
+                    -d '{"state": "success"}'
+                """
             }
         }
         failure {
             script {
-                sh '''
-                    curl "$GITHUB_API_URL/statuses/$GIT_COMMIT" \
-                        -H "Content-Type: application/json" \
-                        -X POST \
-                        -d "{\"state\": \"failure\"}"
-                '''
+                sh """
+                    curl -X POST "${GITHUB_API_URL}/statuses/$GIT_COMMIT" \
+                    -H "Content-Type: application/json" \
+                    -d '{"state": "failure"}'
+                """
             }
         }
     }
