@@ -1,3 +1,13 @@
+void setBuildStatus(String message, String state) {
+  step([
+      $class: "GitHubCommitStatusSetter",
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/Ozanni/ris_portal.git"],
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+}
+
 pipeline {
     agent any
 
@@ -32,23 +42,13 @@ pipeline {
     }
 
     post {
-        always {
-            script {
-                def githubCommitStatus = currentBuild.result == 'SUCCESS' ? 'SUCCESS' : 'FAILURE'
-                githubCommitStatus(
-                    displayName: 'Jenkins',
-                    comment: 'Build status: ' + githubCommitStatus,
-                    state: githubCommitStatus
-                )
-            }
-        }
-        success {
-            echo 'This will run only if successful'
-        }
-        failure {
-            echo 'This will run only if failed'
-        }
-}
+    success {
+        setBuildStatus("Build succeeded", "SUCCESS");
+    }
+    failure {
+        setBuildStatus("Build failed", "FAILURE");
+    }
+  }
 
 // def rejectPullRequest() {
 //     script {
