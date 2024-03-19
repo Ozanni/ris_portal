@@ -71,7 +71,7 @@ void setBuildStatus(String message, String state) {
 
 
 pipeline {
-    agent any
+    agent { label "centos7"}
     stages {
         stage("github => pending") {
             steps {
