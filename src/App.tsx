@@ -10,7 +10,7 @@ import { initializeDayjs } from './utils/initializeDayjs';
 initializeDayjs();
 
 function App() {
-  console.log('test');
+  console.log('test jenkins');
   return (
     <AppProvider store={store}>
       <AppRoutes />

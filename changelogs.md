@@ -6,64 +6,104 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
 ### Added
+
 - Add a 'consumable materials' field for the photography service in the features admin procedure - [@Van]
 
 ## [1.2.78] - 2024-02-01
+
 ### Changed
+
 - #106: Display procedureName + BHYT if order is insurance applied- [@Duc]
 - #117: Add column approver, operator for order table - [@Duc]
-- #122: Tính năng kết quả xét nghiệm  - [@Duc]
+- #122: Tính năng kết quả xét nghiệm - [@Duc]
 - #127: Hiển thị định mức bảo hiểm máy chụp, màn thông tin chỉ định - [@Duc]
 
 ## [1.2.77] - 2024-01-24
+
 ### Added
+
 - PVD-747: Add API transfer study - [@Duc]
+
 ## [1.2.76] - 2024-01-12
+
 ### Added
+
 - PVD-715: Add API general setting - [@Duc]
 - PVD-716: Add API shortcut key setting - [@Duc]
 - PVD-716: Add popup setting order table - [@Duc]
 - PVD-713: Add description editor - [@Duc]
+
 ## [1.2.75] - 2024-01-08
+
 ### Fixed
+
 - PVD-707: replace some select field to autocomplete field - [@Duc]
+
 ## [1.2.74] - 2024-01-05
+
 ### Added
+
 - PVD-633 : Add feature transfer dicom image - [@Duc]
 - PVD-693 : Add feature user config - [@Duc]
 - PVD-696: Add feature config shortcut - [@Duc]
 - PVD-592: Added style for extrasmall input (Select, Autocomplete, Datepicker, Checkbox) - [@Duc]
+
 ### Fixed
+
 - Fixed auto fill operationTime logic with dicomo or non-dicom order - [@Duc]
 - Fixed logic set operation time when double click to lock order - [@Duc]
+
 ### Changed
+
 - Changed max tab from 10 -> 4 - [@Duc]
+
 ## [1.2.73] - 2023-12-28
+
 ### Fixed
+
 - Hot fix check time before call API check insurance - [@Duc]
+
 ## [1.2.72] - 2023-12-27
+
 ### Fixed
+
 - Fixed init operationTime from useRadiologyReport - [@Duc]
 - Fixed table summary modality not display insurance number - [@Duc]
 - Fixed modality select field in request form display capability - [@Duc]
+
 ## [1.2.71] - 2023-12-26
+
 ### Changed
+
 - PVD-668 : Date time no display seconds - [@Duc]
 - PVD-593 : Padding of icon button is 6 - [@Duc]
+
 ## [1.2.7] - 2023-12-25
+
 ### Changed
+
 - PVD-667 : Refactor logic check conflict approval- [@Duc]
+
 ## [1.2.6] - 2023-12-25
+
 ### Changed
+
 - PVD-662 : Change some condition for write radilogy report page - [@Duc]
+
 ## [1.2.5] - 2023-12-24
+
 ### Changed
+
 - PVD-644 : Define endpoints for analytics - [@Duc]
 - PVD-658 : Feature statistic report - [@Duc]
 - Do not check the modality capability - [@Duc]
+
 ## [1.2.4] - 2023-12-20
+
 ### Added
+
 - Added API countRequestsByModality - [@Duc]
 - Added logic check modality capability when approve - [@Duc]
 - PVD-649: Added feature medical history - [@Duc]
@@ -73,86 +113,147 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PVD-652: Highlight report dynamic side bar - [@Hoang]
 - PVD-656: Added icon HIS report status - [@Duc]
 - Add column expectedReporter order table - [@Hoang]
+
 ## [1.2.3] - 2023-12-12
+
 ### Fixed
+
 - Fixed bug change tab is to delete current content - [@Duc]
 - Fixed bug change tab is delete selected operators - [@Duc]
+
 ### Added
+
 - Logic required operator when approve - [@Duc]
+
 ## [1.2.2] - 2023-12-09
+
 ### Fixed
+
 - Hot fix some logic check time when submit request form - [@Duc]
+
 ### Changed
-- Change format display date time  - [@Hoang]
+
+- Change format display date time - [@Hoang]
+
 ## [1.2.1] - 2023-12-08
+
 ### Changed
+
 - PVD-641: Double click open modal order infomation in Examination module - [@Duc]
 - PVD-642: Auto pick procedure when open modal order infomation - [@Duc]
 - PVD-627: Logic get warning before approve - [@Duc]
 - PVD-636: Change color order table row - [@Duc]
+
 ## [1.2.0] - 2023-12-04
+
 ### Changed
+
 - Add option sort by studyTime for order table - [@Duc]
+
 ### Fixed
+
 - Fix table filter expandable - [@Duc]
+
 ## [1.1.9] - 2023-12-04
+
 ### Changed
+
 - Change logic get layout for order - [@Duc]
+
 ### Fixed
+
 - Order list filter form smaller - [@Duc]
+
 ## [1.1.8] - 2023-12-01
+
 ### Fixed
+
 - Fixed too much re-render when typing report - [@Triet]
 - Fixed console error caused by duplicate keys - [@Triet]
+
 ## [1.1.7] - 2023-11-30
+
 ### Changed
+
 - Add config for auto fill content template - [@Duc]
 - Add config filter content template by current user - [@Duc]
+
 ## [1.1.6] - 2023-11-29
+
 ### Fixed
+
 - PVD-621: Fix radiology actions button - [@Duc]
 - PVD-617: Fix logic enabled button approve report, lock order - [@Duc]
+
 ### Changed
+
 - PVD-620,PVD-619: Report content in radiology page always blank until user typing - [@Duc]
+
 ## [1.1.5] - 2023-11-28
+
 ### Fixed
+
 - Fixed styling of context menu items - [@Triet]
 - PVD-618: Print approved report file by curent selected procedure - [@Duc]
 
 ### Changed
+
 - Get signed pdf file instead of html file - [@Duc]
 - PVD-598: Call api to get request data, not get requests from order - [@Duc]
 - Changed storage from localStorage into IndexedDB - [@Triet]
+
 ### Added
+
 - PVD-614: Feature accept order - [@Duc]
+
 ## [1.1.4] - 2023-11-21
+
 ### Added
+
 - Add func generate barcode image, qrcode image - [@Duc]
 - PVD-569: Add default field config for order list table - [@Triet]
+
 ### Changed
+
 - Refactor form create/update order request - [@Duc]
 - Refactor theme picker - [@Triet]
+
 ### Fixed
+
 - Fixed operators dont match with operators in session - [@Duc]
+
 ## [1.1.3] - 2023-11-16
+
 ### Change
+
 - Add gender paramaters when sign report - [@Duc]
+
 ### Fixed
+
 - Fixed change request in radiology page - [@Duc]
+
 ## [1.1.2] - 2023-11-15
+
 ### Change
-- Table consumables active with modalityType dicom  - [@Duc]
+
+- Table consumables active with modalityType dicom - [@Duc]
 - Add images when sign report - [@Duc]
+
 ## [1.1.1] - 2023-11-15
+
 ### Change
 
 - Imaging doctor double click order get shift - [@Hoang]
 
 ## [1.1.0] - 2023-11-14
+
 ### Added
+
 - Add inpatient column order table - [@Hoang]
 - Add consumables column order table - [@Hoang]
+
 ### Fixed
+
 - Hot some bug in radiology report page - [@Duc]
 
 ## [1.0.9] - 2023-11-13
