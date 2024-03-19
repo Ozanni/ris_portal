@@ -23,18 +23,29 @@ pipeline {
         success {
             script {
                 sh """
-                    curl -X POST "${GITHUB_API_URL}/statuses/$GIT_COMMIT" \
-                    -H "Content-Type: application/json" \
-                    -d '{"state": "success"}'
+                    curl -L \
+                    -X POST \
+                    -H "Accept: application/vnd.github+json" \
+                    ${GITHUB_API_URL}/statuses/$GIT_COMMIT \
+                    -d '{"state":"success","description":"The build succeeded!","context":"continuous-integration/jenkins"}'
                 """
             }
         }
         failure {
+            // script {
+            //     sh """
+            //         curl -X POST "${GITHUB_API_URL}/statuses/$GIT_COMMIT" \
+            //         -H "Content-Type: application/json" \
+            //         -d '{"state": "failure"}'
+            //     """
+            // }
             script {
                 sh """
-                    curl -X POST "${GITHUB_API_URL}/statuses/$GIT_COMMIT" \
-                    -H "Content-Type: application/json" \
-                    -d '{"state": "failure"}'
+                    curl -L \
+                    -X POST \
+                    -H "Accept: application/vnd.github+json" \
+                    ${GITHUB_API_URL}/statuses/$GIT_COMMIT \
+                    -d '{"state":"failure","description":"The build succeeded!","context":"continuous-integration/jenkins"}'
                 """
             }
         }
