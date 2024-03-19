@@ -22,12 +22,12 @@ pipeline {
     }
     post {
   success {
-    withCredentials([usernamePassword(credentialsId: 'your_credentials_id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    withCredentials([usernamePassword(credentialsId: 'github-private-key-ed25519', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       sh 'curl -X POST --user $USERNAME:$PASSWORD --data  "{\\"state\\": \\"success\\"}" --url $GITHUB_API_URL/statuses/$GIT_COMMIT'
     }
   }
   failure {
-    withCredentials([usernamePassword(credentialsId: 'your_credentials_id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+    withCredentials([usernamePassword(credentialsId: 'github-private-key-ed25519', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
       sh 'curl -X POST --user $USERNAME:$PASSWORD --data  "{\\"state\\": \\"failure\\"}" --url $GITHUB_API_URL/statuses/$GIT_COMMIT'
     }
   }
