@@ -20,15 +20,14 @@ pipeline {
         }
     }
     post {
-        always {
+        success {
             script {
-                if (currentBuild.result == 'SUCCESS') {
-                    setBuildStatus("Build succeeded", "SUCCESS")
-                    echo "success"
-                } else {
-                    setBuildStatus("Build failed", "FAILURE")
-                    echo "fail"
-                }
+                setBuildStatus("Build succeeded", "SUCCESS");
+            }
+        }
+        failure {
+            script {
+                setBuildStatus("Build failed", "FAILURE");
             }
         }
     }
