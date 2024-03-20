@@ -14,6 +14,7 @@ pipeline {
         stage('Lint') {
             steps {
                 script {
+                    setBuildStatus("Build in progress", "PENDING")
                     sh 'npm run lint'
                 }
             }
