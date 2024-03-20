@@ -72,19 +72,21 @@ void setBuildStatus(String message, String state) {
 pipeline {
     agent any
     stages {
-        stage('test') {
+        stage('Lint') {
             steps {
-                echo 'test...'  
-            }
-            post {
-                success {
-                    script {
-                        setBuildStatus("Build succeeded", "SUCCESS");
-                    }
+                script {
+                    sh 'npm run lint'
                 }
-                failure {
-                    script {
-                        setBuildStatus("Build failed", "FAILURE");
+                post {
+                    success {
+                        script {
+                            setBuildStatus("Build succeeded", "SUCCESS");
+                        }
+                    }
+                    failure {
+                        script {
+                            setBuildStatus("Build failed", "FAILURE");
+                        }
                     }
                 }
             }
