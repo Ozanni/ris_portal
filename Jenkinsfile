@@ -69,24 +69,25 @@ void setBuildStatus(String message, String state) {
   ]);
 }
 
-
 pipeline {
     agent any
     stages {
         stage('test') {
-                steps {
-                    echo 'test....'  
-                }
-                post {
-                    success {
+            steps {
+                echo 'test....'  
+            }
+            post {
+                success {
+                    script {
                         setBuildStatus("Build succeeded", "SUCCESS");
                     }
-                    failure {
+                }
+                failure {
+                    script {
                         setBuildStatus("Build failed", "FAILURE");
                     }
                 }
             }
-
-  }
-  
+        }
+    }
 }
