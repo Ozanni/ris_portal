@@ -78,14 +78,13 @@ pipeline {
                     sh 'npm run lint'
                 }
                 post {
-                    success {
+                    always {
                         script {
-                            setBuildStatus("Build succeeded", "SUCCESS");
-                        }
-                    }
-                    failure {
-                        script {
-                            setBuildStatus("Build failed", "FAILURE");
+                            if (currentBuild.result == 'SUCCESS') {
+                                setBuildStatus("Build succeeded", "SUCCESS")
+                            } else {
+                                setBuildStatus("Build failed", "FAILURE")
+                            }
                         }
                     }
                 }
