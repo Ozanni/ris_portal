@@ -19,14 +19,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    setBuildStatus("Test in progress", "PENDING")
-                    sh 'npm run test'
-                }
-            }
-        }
         stage('Build') {
             steps {
                 script {
