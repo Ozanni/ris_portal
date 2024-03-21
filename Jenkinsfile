@@ -19,6 +19,14 @@ pipeline {
                 }
             }
         }
+        stage('Set JS heap memory') {
+            steps {
+                script {
+                    setBuildStatus("Memory", "PENDING")
+                    sh '$env:NODE_OPTIONS="--max-old-space-size=4096"'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 script {
