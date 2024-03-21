@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     setBuildStatus("Memory", "PENDING")
-                    sh '$env:NODE_OPTIONS="--max-old-space-size=4096"'
+                    env.NODE_OPTIONS = "--max-old-space-size=4096"
                 }
             }
         }
