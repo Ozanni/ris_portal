@@ -47,8 +47,8 @@ pipeline {
                     setBuildStatus("Build in progress", "PENDING")
                     sh 'npm run build:dev'
                     sh '''
-                        mkdir -p ~/build_v4_demo
-                        sudo cp -r /var/lib/jenkins/workspace/v4_demo/build /build_v4_demo
+                        sudo -u jenkins mkdir -p /build_v4_demo
+                        sudo -u jenkins cp -r /var/lib/jenkins/workspace/v4_demo/build /build_v4_demo
                         '''
                     // withDockerRegistry(url: 'https://index.docker.io/v1/') {
                     //     sh '''
