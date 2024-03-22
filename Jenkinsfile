@@ -33,29 +33,33 @@ pipeline {
                 }
             }
         }
-        // stage('Set JS heap memory') {
-        //     steps {
-        //         script {
-        //             setBuildStatus("Memory", "PENDING")
-        //             env.NODE_OPTIONS = "--max-old-space-size=4096"
-        //         }
-        //     }
-        // }
-    //     stage('Build') {
-    //         steps {
-    //             script {
-    //                 // setBuildStatus("Build in progress", "PENDING")
-    //                 // sh 'npm run build:dev'
-    //                 withDockerRegistry(url: 'https://index.docker.io/v1/') {
-    //                     sh '''
-    //                         docker build --platform linux/amd64 -t tunglt1810/itech-viewer-v2:latest -f Dockerfile .
-    //                         docker image push tunglt1810/itech-viewer-v2:latest
-    //                         '''
-    //                 }
+        stage('Set JS heap memory') {
+            steps {
+                script {
+                    setBuildStatus("Memory", "PENDING")
+                    env.NODE_OPTIONS = "--max-old-space-size=4096"
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    setBuildStatus("Build in progress", "PENDING")
+                    sh 'npm run build:dev'
+                    sh '''
+                        mkdir -p ~/build_v4_demo
+                        sudo cp -r /var/lib/jenkins/workspace/v4_demo/build /build_v4_demo
+                        '''
+                    // withDockerRegistry(url: 'https://index.docker.io/v1/') {
+                    //     sh '''
+                    //         docker build --platform linux/amd64 -t tunglt1810/itech-viewer-v2:latest -f Dockerfile .
+                    //         docker image push tunglt1810/itech-viewer-v2:latest
+                    //         '''
+                    // }
                     
-    //             }
-    //         }
-    //     }
+                }
+            }
+        }
     //     stage('Deploy') {
     //         steps {
     //             sshagent(['github-private-key-ed25519']) {
