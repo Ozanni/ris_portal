@@ -23,7 +23,6 @@ pipeline {
         stage('pull code'){
             steps{
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Ozanni/ris_portal.git']]])
-                sh 'npm ci'
             }
         }
         stage('Build') {
